@@ -1,0 +1,68 @@
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #1f2937;
+  padding: 20px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sidebar h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.menu-section > p {
+  padding: 10px 0;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.menu-section > p:hover {
+  background-color: #374151;
+  padding-left: 5px;
+}
+
+.dropdown {
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dropdown p {
+  font-size: 14px;
+  color: #d1d5db;
+  cursor: pointer;
+}
+
+.dropdown p:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+.logout-button {
+  background-color: #ef4444;
+  border: none;
+  color: white;
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: auto;
+}
+
+.main-content {
+  flex: 1;
+  padding: 40px;
+  background-color: #f3f4f6;
+  overflow-y: auto;
+}

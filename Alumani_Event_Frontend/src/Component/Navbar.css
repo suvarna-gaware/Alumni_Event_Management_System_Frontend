@@ -1,0 +1,47 @@
+Navbar brand styling
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.6rem;
+    color: #ffffff !important;
+  }
+  
+  
+  .nav-link-custom {
+    color: #ffffff !important;
+    font-size: 1.1rem;
+    margin-right: 15px;
+    transition: color 0.3s ease;
+  }
+  
+  .nav-link-custom:hover {
+    color: #ffba08 !important;
+  }
+  
+  
+  .dropdown-menu {
+    background-color: #343a40;
+    border: none;
+  }
+  
+  .dropdown-item {
+    color: #ffffff !important;
+    transition: background-color 0.3s ease;
+  }
+  
+  .dropdown-item:hover {
+    background-color: #6c757d;
+    color: #ffffff !important;
+  }
+  
+  
+  @media (max-width: 992px) {
+    .navbar-nav {
+      text-align: center;
+    }
+  
+    .nav-link-custom {
+      margin-right: 0;
+      margin-bottom: 10px;
+    }
+  }
+  

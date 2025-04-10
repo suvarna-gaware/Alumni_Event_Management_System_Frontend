@@ -1,0 +1,23 @@
+.admin-login-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .admin-login-box {
+    background-color: #fff;
+    padding: 35px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  .admin-login-box h2 {
+    color: #333;
+    font-weight: 600;
+  }
+ 
+  
+  
