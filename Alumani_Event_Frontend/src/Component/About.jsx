@@ -1,11 +1,12 @@
 import React from 'react';
+import "./About.css"; 
 import { Link } from 'react-router-dom';
 
 const About = () => {
   return (
     <div className="container my-5">
-      <div className="text-center mb-5">
-        <h1 className="display-4 fw-bold text-primary">About Us</h1>
+      <div className="text-center ">
+        <h1 className="display fw-bold text-primary">About Us</h1>
         <p className="lead text-secondary">Learn more about our institution and our mission to connect alumni.</p>
       </div>
 
