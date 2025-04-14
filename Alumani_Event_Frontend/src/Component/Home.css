@@ -38,3 +38,21 @@
   color: #fff;
   text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
 }
+.btn {
+  width: 200px;
+  text-align: center;
+  background-color: #0d6efd;   /* Bootstrap primary */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  margin-left: 500px;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #084298;
+}
+

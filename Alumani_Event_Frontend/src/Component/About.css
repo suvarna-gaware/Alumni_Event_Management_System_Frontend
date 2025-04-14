@@ -1,0 +1,24 @@
+.container {
+    height: 100vh; 
+    overflow-y: auto; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    padding: 2rem 1rem;
+  }
+  .text-center {
+    margin-bottom: 10px; 
+  }
+  
+  .display {
+    font-size: 2.5em; 
+  }
+  
+  .p-4 {
+    padding: 1rem !important; 
+  }
+  
+  .row.g-5 {
+    --bs-gutter-y: 1rem; 
+  }
+    
