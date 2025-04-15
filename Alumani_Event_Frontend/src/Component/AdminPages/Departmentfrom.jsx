@@ -1,22 +1,52 @@
 import { useState } from "react";
-import "./DepartmentForm.css"; // Make sure the path is correct
+import "./DepartmentForm.css"; // Make sure this file is in the same folder
 
-function DepartmentForm({ onSubmit }) {
-  const [form, setForm] = useState({
-    deptname: "",
-  });
+function DepartmentForm() {
+  const [form, setForm] = useState({ deptname: "" });
 
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmit(form);
+    try {
+      const response = await fetch("http://localhost:8766/createDepartment", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(form),
+      });
+
+      const result = await response.text();
+      if (response.ok) {
+        alert(result);
+        setForm({ deptname: "" }); // Clear input
+      } else {
+        alert("Failed to create department: " + result);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Something went wrong!");
+    }
   };
 
   return (
-    <form className="department-form" onSubmit={handleSubmit}>
-      <input name="deptname" placeholder="Department Name" onChange={handleChange} required />
-      <button type="submit">Add Department</button>
-    </form>
+    <div className="department-container">
+      <form className="department-form" onSubmit={handleSubmit}>
+        <h1>Add Department</h1>
+        <input
+          type="text"
+          name="deptname"
+          placeholder="Enter Department Name"
+          value={form.deptname}
+          onChange={handleChange}
+          required
+        />
+        <button type="submit">Add Department</button>
+      </form>
+    </div>
   );
 }
 

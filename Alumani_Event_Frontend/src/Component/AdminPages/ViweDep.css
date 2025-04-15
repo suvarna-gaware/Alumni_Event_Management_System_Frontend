@@ -1,0 +1,86 @@
+.view-dep-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 1rem;
+  }
+  
+  .search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .search-icon {
+    position: absolute;
+    left: 10px;
+    color: #666;
+    font-size: 1.2rem;
+  }
+  
+  .search-input {
+    padding: 0.5rem 0.5rem 0.5rem 2.2rem;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    width: 100%;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  
+  .search-input:focus {
+    border-color: #007bff;
+  }
+  
+  .search-btn,
+  .reset-btn {
+    margin-left: 0.5rem;
+    padding: 0.3rem 0.8rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .reset-btn {
+    background-color: #6c757d;
+  }
+  
+  .edit-section {
+    margin-bottom: 1rem;
+  }
+  
+  .department-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .department-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f4f4f4;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-radius: 6px;
+  }
+  
+  .action-buttons button {
+    margin-left: 5px;
+    padding: 5px 8px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .edit-button {
+    background-color: #ffc107;
+    color: white;
+  }
+  
+  .delete-button {
+    background-color: #dc3545;
+    color: white;
+  }
+  

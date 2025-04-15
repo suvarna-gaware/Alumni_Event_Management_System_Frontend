@@ -30,18 +30,9 @@ const NavBar = () => {
               <HashLink className="nav-link" smooth to="#event">Events</HashLink>
             </li>
 
-            <li className="nav-item dropdown">
-              <a className="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Account
-              </a>
-              <ul className="dropdown-menu dropdown-menu-end bg-dark">
-                <li>
-                  <Link className="dropdown-item text-light" to="/adminlogin">Admin Login</Link>
-                </li>
-                <li>
-                  <Link className="dropdown-item text-light" to="/users/login">User Login</Link>
-                </li>
-              </ul>
+            {/* ✅ Fix this line */}
+            <li className="nav-item">
+              <Link className="nav-link" to="/login">Login</Link>
             </li>
           </ul>
         </div>
