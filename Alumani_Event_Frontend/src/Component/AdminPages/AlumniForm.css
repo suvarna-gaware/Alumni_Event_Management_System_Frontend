@@ -1,41 +1,54 @@
-.alumni-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    max-width: 600px;
-    margin: 2rem auto;
-    padding: 2rem;
-    background-color: #fdfdfd;
-    border-radius: 12px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-  }
-  
-  .alumni-form input {
-    padding: 10px 14px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    transition: border-color 0.3s ease;
-  }
-  
-  .alumni-form input:focus {
-    outline: none;
-    border-color: #007bff;
-  }
-  
-  .alumni-form button {
-    padding: 12px;
-    font-size: 16px;
-    font-weight: 500;
-    border: none;
-    border-radius: 8px;
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .alumni-form button:hover {
-    background-color: #0056b3;
-  }
-  
+.alumni-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.alumni-form-box {
+  width: 600px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.alumni-form h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.alumni-form input,
+.alumni-form select,
+.alumni-form button {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.form-row select,
+.form-row input {
+  width: 48%;
+}
+
+.alumni-form button {
+  background-color: #007bff; /* Blue color for the button */
+  color: white; /* Text color */
+  font-size: 16px;
+  font-weight: bold;
+  border: none; /* Remove default border */
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.alumni-form button:hover {
+  background-color: #0056b3; /* Darker blue for hover effect */
+}

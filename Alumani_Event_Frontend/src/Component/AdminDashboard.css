@@ -1,68 +1,99 @@
+/* Make the outer container full viewport height and prevent overflow */
 .dashboard-container {
   display: flex;
   height: 100vh;
-  font-family: Arial, sans-serif;
+  overflow: hidden;
 }
 
+/* Sidebar fixed to the left, always visible */
 .sidebar {
   width: 250px;
-  background-color: #1f2937;
-  padding: 20px;
+  background: linear-gradient(to bottom, #1c1c1c, #2e2e2e);
   color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  overflow-y: auto;
+  z-index: 1000; /* ensures it's on top */
 }
 
 .sidebar h2 {
-  font-size: 24px;
+  margin: 0 0 20px;
+  font-size: 22px;
+  text-align: center;
+}
+
+.menu-section {
   margin-bottom: 10px;
 }
 
-.menu-section > p {
-  padding: 10px 0;
+.section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   cursor: pointer;
-  font-size: 16px;
+  padding: 10px;
+  border-radius: 5px;
   transition: 0.3s;
 }
 
-.menu-section > p:hover {
-  background-color: #374151;
-  padding-left: 5px;
+.section-title:hover {
+  background-color: #333;
+}
+
+.section-title .icon {
+  margin-right: 10px;
 }
 
 .dropdown {
-  padding-left: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+  margin-left: 20px;
+  padding-left: 10px;
+  border-left: 2px solid gray;
 }
 
 .dropdown p {
-  font-size: 14px;
-  color: #d1d5db;
   cursor: pointer;
+  margin: 5px 0;
+  padding: 5px;
 }
 
 .dropdown p:hover {
-  color: white;
-  text-decoration: underline;
+  background-color: #444;
+  border-radius: 4px;
 }
 
 .logout-button {
-  background-color: #ef4444;
-  border: none;
+  margin-top: 30px;
+  background-color: #d9534f;
   color: white;
-  padding: 12px;
-  border-radius: 10px;
+  padding: 10px;
+  width: 100%;
+  border: none;
   cursor: pointer;
-  font-size: 16px;
-  margin-top: auto;
+  border-radius: 5px;
 }
 
+.logout-button:hover {
+  background-color: #c9302c;
+}
+
+/* Main content takes full height, scrolls separately */
 .main-content {
-  flex: 1;
-  padding: 40px;
-  background-color: #f3f4f6;
+  margin-left: 250px; /* match sidebar width */
+  padding: 20px;
+  height: 100vh;
   overflow-y: auto;
+  background-color: #f4f4f4;
+  width: calc(100% - 250px);
+}
+
+/* Admin panel title style */
+.admin-panel-title {
+  display: flex;
+  align-items: center;
+  font-size: 1.6rem;
+  color: white;
+  margin-bottom: 1rem;
 }
