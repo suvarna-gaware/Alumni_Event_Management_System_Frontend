@@ -4,7 +4,7 @@ import { FaSearch, FaEdit, FaTrashAlt } from "react-icons/fa";
 
 function ViewEvent() {
   const [events, setEvents] = useState([]);
-  const [searchId, setSearchId] = useState("");
+  const [searchId, setSearchName] = useState("");
   const [editEvent, setEditEvent] = useState({
     eid: "",
     orgid: "",
@@ -13,13 +13,15 @@ function ViewEvent() {
     description: "",
     venue: "",
   });
+  const [loading,setLoading]=useState(false);
   const [isSearching, setIsSearching] = useState(false);
 
-  useEffect(() => {
-    fetchEvents();
-  }, []);
+  // useEffect(() => {
+  //   fetchEvents();
+  // }, []);
 
   const fetchEvents = async () => {
+    setLoading(true);
     try {
       const res = await fetch("http://localhost:8766/viewAllEvents");
       const data = await res.json();

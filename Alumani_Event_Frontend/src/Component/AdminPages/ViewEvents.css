@@ -4,7 +4,6 @@
   margin: auto;
 }
 
-
 .edit-section {
   background-color: #f9f9f9;
   padding: 16px;
@@ -67,8 +66,32 @@
 .edit-button, .delete-button {
   padding: 6px 10px;
   cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  transition: background-color 0.2s ease-in-out;
 }
-/* Modern Search Section */
+
+
+.edit-button {
+  background-color: #28a745;  
+  color: #fff;
+}
+
+.edit-button:hover {
+  background-color: #218838;  
+}
+
+
+.delete-button {
+  background-color: #dc3545;  
+  color: #fff;
+}
+
+.delete-button:hover {
+  background-color: #c82333;  
+}
+
+
 .modern-search-wrapper {
   display: flex;
   flex-wrap: wrap;
@@ -80,7 +103,7 @@
 .modern-search-box {
   position: relative;
   flex: 1;
-  max-width: 400px;
+  max-width: 600px;
 }
 
 .modern-search-icon {
