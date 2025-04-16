@@ -52,7 +52,7 @@ function AdminDashboard() {
       case 'department':
         return action === 'add' ? <DepartmentForm /> : <ViweDep />;
       case 'events':
-        return action === 'add' ? <Event /> : <p><ViewEvents/></p>;
+        return action === 'add' ? <Event /> : <ViewEvents/>;
       case 'alumni':
         return action === 'add' ? <AlumniForm /> : <p>Alumni - View not implemented yet.</p>;
       case 'organization':

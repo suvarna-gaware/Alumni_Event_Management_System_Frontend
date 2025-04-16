@@ -3,13 +3,15 @@ import "./AlumniForm.css";
 
 function AlumniForm({ onSubmit }) {
   const [form, setForm] = useState({
-    Did: "",
+    
     alumni_name: "",
     gender: "",
     passout_year: "",
     address: "",
     alumni_email: "",
     contact: "",
+    DepatName:"",
+    
   });
 
   const handleChange = (e) =>
@@ -25,11 +27,7 @@ function AlumniForm({ onSubmit }) {
       <div className="alumni-form-box">
         <h1>Alumni Registration</h1>
         <form className="alumni-form" onSubmit={handleSubmit}>
-          <input
-            name="Did"
-            placeholder="Department ID"
-            onChange={handleChange}
-          />
+          
           <input
             name="alumni_name"
             placeholder="Alumni Name"
@@ -71,12 +69,17 @@ function AlumniForm({ onSubmit }) {
               required
             />
           </div>
-          {/* Address field on top, and below it Email and Contact in one row */}
+         
           <input
             name="address"
             placeholder="Address"
             onChange={handleChange}
             required
+          />
+          <input
+            name="DeptName"
+            placeholder="Department Name"
+            onChange={handleChange}
           />
           
           

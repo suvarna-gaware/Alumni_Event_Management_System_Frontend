@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './AdminLogin.css';
+// import './AdminLogin.css';
 
 // ✅ Define constants for hardcoded credentials
 const VALID_USERNAME = "admin";
