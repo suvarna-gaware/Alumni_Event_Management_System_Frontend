@@ -1,54 +1,107 @@
+/* AlumniForm.css */
+
+/* Container for the whole form */
 .alumni-form-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-}
-
-.alumni-form-box {
-  width: 600px;
   padding: 20px;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  min-height: 100vh;
+  background-color: #f4f4f4;
 }
 
-.alumni-form h1 {
+/* Box around the form for better styling */
+.alumni-form-box {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  width: 100%;
+  max-width: 500px;
+  box-sizing: border-box;
+}
+
+/* Heading style */
+h1 {
   text-align: center;
   margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
 }
 
-.alumni-form input,
-.alumni-form select,
-.alumni-form button {
-  width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.form-row {
+/* Form style */
+.alumni-form {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   gap: 15px;
 }
 
-.form-row select,
-.form-row input {
-  width: 48%;
-}
-
-.alumni-form button {
-  background-color: #007bff; /* Blue color for the button */
-  color: white; /* Text color */
+/* Styling for form inputs */
+.alumni-form input, .alumni-form select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
   font-size: 16px;
-  font-weight: bold;
-  border: none; /* Remove default border */
-  cursor: pointer;
-  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+  outline: none;
+  width: 100%;
 }
 
-.alumni-form button:hover {
-  background-color: #0056b3; /* Darker blue for hover effect */
+/* Focus effect for inputs */
+.alumni-form input:focus, .alumni-form select:focus {
+  border-color: #4CAF50;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+/* Styling for input placeholders */
+.alumni-form input::placeholder, .alumni-form select::placeholder {
+  color: #888;
+}
+
+/* Form row layout */
+.form-row {
+  display: flex;
+  gap: 15px;
+  width: 100%;
+}
+
+/* Button styling */
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+/* Styling for the select options */
+select {
+  background-color: #f9f9f9;
+}
+
+/* Add some margin to the bottom of the form for spacing */
+button[type="submit"] {
+  margin-top: 20px;
+}
+
+/* For responsive design */
+@media (max-width: 600px) {
+  .alumni-form-box {
+    padding: 20px;
+  }
+
+  .form-row {
+    flex-direction: column;
+  }
+
+  .form-row select,
+  .form-row input {
+    width: 100%;
+  }
 }

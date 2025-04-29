@@ -1,0 +1,184 @@
+
+
+
+.view-alumni-container {
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .view-alumni-container h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+  }
+  
+  
+  .search-form {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+  }
+  
+  .search-input-wrapper {
+    display: flex;
+    align-items: center;
+    background-color: #f5f5f5;
+    padding: 8px 15px;
+    border-radius: 30px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .search-input-wrapper input {
+    border: none;
+    background: transparent;
+    margin-left: 10px;
+    font-size: 16px;
+    outline: none;
+    width: 250px;
+  }
+  
+  .search-icon {
+    font-size: 20px;
+    color: #555;
+  }
+  
+  
+  .alumni-list {
+    margin-top: 20px;
+    overflow-x: auto;
+  }
+  
+  .alumni-list h2 {
+    text-align: center;
+    margin-bottom: 15px;
+    color: #444;
+  }
+  
+  .alumni-list table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  }
+  
+  .alumni-list th, 
+  .alumni-list td {
+    padding: 12px 10px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+  }
+  
+  .alumni-list th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+  }
+  
+  .alumni-list tr:nth-child(even) {
+    background-color: #fafafa;
+  }
+  
+  
+  .icon-button {
+    background: none;
+    border: none;
+    color: #007bff;
+    font-size: 18px;
+    cursor: pointer;
+    margin: 0 5px;
+    transition: color 0.3s ease;
+  }
+  
+  .icon-button:hover {
+    color: #0056b3;
+  }
+  
+ 
+  .update-form {
+    background: #f9f9f9;
+    margin-top: 40px;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .update-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .update-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  .update-form input,
+  .update-form select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    background: #fff;
+  }
+  
+  .update-form input[type="number"]::-webkit-outer-spin-button,
+  .update-form input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  
+  .update-form button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+  }
+  
+  .update-form button:hover {
+    background-color: #0056b3;
+  }
+  
+  
+  .alumni-list td[colspan="10"] {
+    padding: 20px;
+    font-style: italic;
+    color: #888;
+  }
+  
+  
+  @media (max-width: 768px) {
+    .search-input-wrapper {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 10px;
+    }
+  
+    .search-input-wrapper input {
+      width: 100%;
+      margin-left: 0;
+      margin-top: 10px;
+    }
+  
+    .alumni-list table {
+      font-size: 12px;
+    }
+  
+    .update-form {
+      padding: 20px;
+    }
+  
+    .update-form form {
+      width: 100%;
+      gap: 10px;
+    }
+  }
+  
