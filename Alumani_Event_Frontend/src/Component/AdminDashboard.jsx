@@ -11,18 +11,18 @@ import {
   FaSignOutAlt,
   FaChevronDown,
   FaChevronRight,
-  FaUserShield // <-- Added this for Admin Panel icon
+  FaUserShield
 } from 'react-icons/fa';
 
-// Components
+import AlumniForm from './AdminPages/Alumniform';
 import DepartmentForm from './AdminPages/Departmentfrom';
 import Event from './AdminPages/Event';
-import AlumniForm from './AdminPages/Alumniform';
 import Organization from './AdminPages/Orgnization';
 import Feedback from './AdminPages/Feedback';
 import EventAttendance from './AdminPages/Eventnattendece';
 import ViweDep from './AdminPages/ViweDep';
 import ViewEvents from './AdminPages/ViewEvent';
+import ViewAlumni from './ViweAlumni';
 
 function AdminDashboard() {
   const navigate = useNavigate();
@@ -49,30 +49,31 @@ function AdminDashboard() {
     }
 
     switch (section) {
+      case 'alumni':
+        return action === 'add' ? <AlumniForm /> :<ViewAlumni/>;
       case 'department':
         return action === 'add' ? <DepartmentForm /> : <ViweDep />;
-      case 'events':
-        return action === 'add' ? <Event /> : <ViewEvents/>;
-      case 'alumni':
-        return action === 'add' ? <AlumniForm /> : <p>Alumni - View not implemented yet.</p>;
       case 'organization':
         return action === 'add' ? <Organization /> : <p>Organization - View not implemented yet.</p>;
-      case 'feedback':
-        return action === 'add' ? <Feedback /> : <p>Feedback - View not implemented yet.</p>;
+      case 'events':
+        return action === 'add' ? <Event /> : <ViewEvents />;
       case 'attendance':
         return action === 'add' ? <EventAttendance /> : <p>Attendance - View not implemented yet.</p>;
+      case 'feedback':
+        return <Feedback />; // Only View for feedback
       default:
         return <p>Invalid selection.</p>;
     }
   };
 
+  // Sidebar sections in new order
   const sections = [
-    { key: 'department', label: 'Department', icon: <FaBuilding /> },
-    { key: 'events', label: 'Events', icon: <FaCalendarAlt /> },
-    { key: 'alumni', label: 'Alumni', icon: <FaUserGraduate /> },
-    { key: 'organization', label: 'Organization', icon: <FaUsers /> },
-    { key: 'feedback', label: 'Feedback', icon: <FaCommentDots /> },
-    { key: 'attendance', label: 'Attendance', icon: <FaClipboardCheck /> }
+    { key: 'alumni', label: 'Alumni', icon: <FaUserGraduate />, allowAdd: true },
+    { key: 'department', label: 'Department', icon: <FaBuilding />, allowAdd: true },
+    { key: 'organization', label: 'Organizer', icon: <FaUsers />, allowAdd: true },
+    { key: 'events', label: 'Events', icon: <FaCalendarAlt />, allowAdd: true },
+    { key: 'attendance', label: 'Event Attendance', icon: <FaClipboardCheck />, allowAdd: true },
+    { key: 'feedback', label: 'Feedback', icon: <FaCommentDots />, allowAdd: false } // Feedback only view
   ];
 
   return (
@@ -84,7 +85,7 @@ function AdminDashboard() {
         </h2>
         <hr />
 
-        {sections.map(({ key, label, icon }) => (
+        {sections.map(({ key, label, icon, allowAdd }) => (
           <div key={key} className="menu-section">
             <div className="section-title" onClick={() => toggleSection(key)}>
               <span className="icon">{icon}</span>
@@ -95,7 +96,7 @@ function AdminDashboard() {
             </div>
             {openSection === key && (
               <div className="dropdown">
-                <p onClick={() => handleSelect(key, 'add')}>➕ Add</p>
+                {allowAdd && <p onClick={() => handleSelect(key, 'add')}>➕ Add</p>}
                 <p onClick={() => handleSelect(key, 'view')}>👁️ View</p>
               </div>
             )}

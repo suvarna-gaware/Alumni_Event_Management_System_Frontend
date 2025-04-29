@@ -5,7 +5,7 @@ import { FaEdit, FaTrashAlt } from "react-icons/fa";
 function ViweDep() {
   const [departments, setDepartments] = useState([]);
   const [searchName, setSearchName] = useState("");
-  const [editDept, setEditDept] = useState({ did: "", deptname: "" });
+  const [editDept, setEditDept] = useState({ deptid: "", deptname: "" });
   const [loading, setLoading] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
 
@@ -79,7 +79,7 @@ function ViweDep() {
       });
       const msg = await res.text();
       alert(msg);
-      setEditDept({ did: "", deptname: "" });
+      setEditDept({ deptid: "", deptname: "" });
       fetchDepartments();
     } catch (err) {
       alert("Failed to update.");
@@ -104,7 +104,7 @@ function ViweDep() {
       {/* Edit Form */}
       {editDept?.did && (
         <div className="edit-section mb-4">
-          <h4>Edit Department (ID: {editDept.did})</h4>
+          <h4>Edit Department (ID: {editDept.deptid})</h4>
           <input
             className="form-control mb-2"
             value={editDept.deptname}
@@ -136,8 +136,8 @@ function ViweDep() {
               </tr>
             ) : departments.length > 0 ? (
               departments.map((dept) => (
-                <tr key={dept.did}>
-                  <td>{dept.did}</td>
+                <tr key={dept.deptid}>
+                  <td>{dept.deptid}</td>
                   <td>{dept.deptname}</td>
                   <td>
                     <button
@@ -149,7 +149,7 @@ function ViweDep() {
                     </button>
                     <button
                       className="btn btn-danger btn-sm"
-                      onClick={() => handleDelete(dept.did)}
+                      onClick={() => handleDelete(dept.deptid)}
                       title="Delete"
                     >
                       <FaTrashAlt />
