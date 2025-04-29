@@ -1,8 +1,4 @@
 import React from 'react';
-import './Gallery.css'; // Make sure the filename is spelled correctly!
-import image from '../assets/Alumni1.jpg'; 
-import image1 from '../assets/alumani2.jpg'; 
-import image2 from '../assets/alumani3.jpg'; 
 
 const Gallery = () => {
   const images = [
@@ -15,27 +11,24 @@ const Gallery = () => {
   ];
 
   return (
-    <div className="gallery-container mt-5 pt-3 px-4">
-      <div id="carouselExampleControls" className="carousel slide" data-bs-ride="carousel">
-        <div className="carousel-inner">
-          <div className="carousel-item active">
-            <img className="d-block w-100 gallery-img" src={image} alt="First slide" />
+    <div className="container mt-5 pt-3">
+      <h2 className="text-3xl font-bold text-primary text-center mb-5">Gallery</h2>
+
+      <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+        {images.map((image, index) => (
+          <div key={index} className="col">
+            <div className="card h-100 shadow-sm">
+              <img
+                src={image.src}
+                alt={image.alt}
+                className="card-img-top object-cover h-64 w-100"
+              />
+              <div className="card-body text-center">
+                <p className="card-text text-muted">Year: {image.year}</p>
+              </div>
+            </div>
           </div>
-          <div className="carousel-item">
-            <img className="d-block w-100 gallery-img" src={image1} alt="Second slide" />
-          </div>
-          <div className="carousel-item">
-            <img className="d-block w-100 gallery-img" src={image2} alt="Third slide" />
-          </div>
-        </div>
-        <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-          <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span className="visually-hidden">Previous</span>
-        </button>
-        <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-          <span className="carousel-control-next-icon" aria-hidden="true"></span>
-          <span className="visually-hidden">Next</span>
-        </button>
+        ))}
       </div>
     </div>
   );

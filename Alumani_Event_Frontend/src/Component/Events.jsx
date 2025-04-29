@@ -48,7 +48,20 @@ const Events = () => {
   ];
 
   return (
-    <div></div>
+    <div className="events-container">
+      <h2 className="events-title">Upcoming Alumni Events</h2>
+
+      <div className="events-grid">
+        {events.map((event) => (
+          <div key={event.id} className="event-card">
+            <h3 className="event-name">{event.name}</h3>
+            <p className="event-detail"><strong>Date:</strong> {event.date}</p>
+            <p className="event-detail"><strong>Venue:</strong> {event.venue}</p>
+            <p className="event-description">{event.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
 
