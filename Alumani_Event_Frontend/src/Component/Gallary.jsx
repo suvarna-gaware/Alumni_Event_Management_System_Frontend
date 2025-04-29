@@ -5,6 +5,15 @@ import image1 from '../assets/alumani2.jpg';
 import image2 from '../assets/alumani3.jpg'; 
 
 const Gallery = () => {
+  const images = [
+    { src: "src/assets/class.jpg", alt: "Image 1", year: "2021" },
+    { src: "src/assets/photo2.jpg", alt: "Image 2", year: "2020" },
+    { src: "src/assets/P1.jpg", alt: "Image 3", year: "2019" },
+    { src: "src/assets/img2.jpg", alt: "Image 4", year: "2022" },
+    { src: "src/assets/P2.jpg", alt: "Image 5", year: "2023" },
+    { src: "src/assets/party.jpg", alt: "Image 6", year: "2021" },
+  ];
+
   return (
     <div className="gallery-container mt-5 pt-3 px-4">
       <div id="carouselExampleControls" className="carousel slide" data-bs-ride="carousel">

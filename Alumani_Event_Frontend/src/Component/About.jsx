@@ -10,40 +10,37 @@ const About = () => {
         <p className="lead text-secondary">Learn more about our institution and our mission to connect alumni.</p>
       </div>
 
-      <div className="row g-5">
+      <div className="row g-4"> 
         <div className="col-md-6">
-          <div className="p-4 border rounded shadow-sm bg-light h-100">
-            <h4 className="text-success">About the Institution</h4>
-            <p>XYZ Institute has been building leaders since 1985. With a strong legacy of innovation and education, we’re proud to see our alumni thrive across industries worldwide.</p>
+          <div className="p-3 border rounded shadow-sm bg-light h-100"> 
+            <h5 className="text-success"> Why Alumni Events Matter</h5> 
+            <p className="small"><li>Reconnect alumni with their peers and institution</li>
+          <li>Foster mentorship and guidance for current students</li>
+          <li>Celebrate milestones and share inspirational stories</li>
+          <li>Encourage donations, support, and institutional growth</li></p> {/* Smaller text */}
           </div>
         </div>
 
         <div className="col-md-6">
-          <div className="p-4 border rounded shadow-sm bg-light h-100">
-            <h4 className="text-success">Why This System?</h4>
-            <p>This system was created to foster better communication and collaboration between the alumni and the institution. Stay updated, join events, and reconnect with old friends easily.</p>
+          <div className="p-3 border rounded shadow-sm bg-light h-100"> 
+            <h5 className="text-success"> Key Features</h5> 
+            <p className="small"><li>Easy creation and management of alumni events</li>
+          <li>Profile access and updates for alumni and organizers</li>
+          <li>Monitor event attendance and collect feedback</li>
+          <li>Secure login for admins, alumni, and organizations</li></p> 
           </div>
         </div>
 
         <div className="col-12">
-          <div className="p-4 border rounded shadow-sm bg-light">
-            <h4 className="text-success">Features</h4>
+          <div className="p-3 border rounded shadow-sm bg-light"> {/* Reduced padding */}
+            <h5 className="text-success">Features</h5> {/* Reduced header size */}
             <ul className="list-group list-group-flush">
-              <li className="list-group-item">✅ Alumni Management</li>
-              <li className="list-group-item">✅ Event Registration</li>
-              <li className="list-group-item">✅ Feedback System</li>
+              <li className="list-group-item small">✅ Alumni Management</li> {/* Smaller text */}
+              <li className="list-group-item small">✅ Event Registration</li> {/* Smaller text */}
+              <li className="list-group-item small">✅ Feedback System</li> {/* Smaller text */}
             </ul>
           </div>
         </div>
-
-        {/* <div className="col-12">
-          <div className="p-4 border rounded shadow-sm bg-light text-center">
-            <h4 className="text-success">Want to get in touch?</h4>
-            <p className="mb-0">
-              Visit our <Link to="/contact" className="btn btn-outline-primary btn-sm ms-1">Contact Page</Link> to reach out.
-            </p>
-          </div>
-        </div> */}
       </div>
     </div>
   );
