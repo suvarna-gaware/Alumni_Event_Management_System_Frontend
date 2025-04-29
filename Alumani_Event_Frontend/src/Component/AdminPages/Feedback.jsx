@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const FeedbackForm = () => {
@@ -7,6 +7,22 @@ const FeedbackForm = () => {
     feedback_text: '',
     rating: ''
   });
+
+  const [alumni, setAlumni] = useState([]);
+
+  // Fetch alumni data
+  useEffect(() => {
+    const fetchAlumni = async () => {
+      try {
+        const res = await axios.get('http://localhost:5000/api/alumni');
+        setAlumni(res.data);
+      } catch (error) {
+        console.error('Error fetching alumni data:', error);
+      }
+    };
+
+    fetchAlumni();
+  }, []);
 
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -30,16 +46,22 @@ const FeedbackForm = () => {
       <form onSubmit={handleSubmit} className="border p-4 rounded shadow-sm bg-light">
 
         <div className="mb-3">
-          <label htmlFor="Alumni_id" className="form-label">Alumni ID</label>
-          <input
-            type="number"
-            className="form-control"
+          <label htmlFor="Alumni_id" className="form-label">Select Alumni</label>
+          <select
+            className="form-select"
             id="Alumni_id"
             name="Alumni_id"
             value={formData.Alumni_id}
             onChange={handleChange}
             required
-          />
+          >
+            <option value="">-- Select Alumni --</option>
+            {alumni.map((al) => (
+              <option key={al.Alumni_id} value={al.Alumni_id}>
+                {al.alumni_name}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className="mb-3">

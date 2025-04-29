@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./DepartmentForm.css"; // Make sure this file is in the same folder
+import "./DepartmentForm.css"; 
 
 function DepartmentForm() {
   const [form, setForm] = useState({ deptname: "" });
@@ -22,7 +22,7 @@ function DepartmentForm() {
       const result = await response.text();
       if (response.ok) {
         alert(result);
-        setForm({ deptname: "" }); // Clear input
+        setForm({ deptname: "" }); 
       } else {
         alert("Failed to create department: " + result);
       }
