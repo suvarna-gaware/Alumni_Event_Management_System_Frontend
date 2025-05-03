@@ -1,6 +1,6 @@
-/* AlumniForm.css */
 
-/* Container for the whole form */
+
+
 .alumni-form-container {
   display: flex;
   justify-content: center;
@@ -10,7 +10,7 @@
   background-color: #f4f4f4;
 }
 
-/* Box around the form for better styling */
+
 .alumni-form-box {
   background-color: #fff;
   border-radius: 8px;
@@ -21,7 +21,7 @@
   box-sizing: border-box;
 }
 
-/* Heading style */
+
 h1 {
   text-align: center;
   margin-bottom: 20px;
@@ -29,14 +29,14 @@ h1 {
   color: #333;
 }
 
-/* Form style */
+
 .alumni-form {
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
 
-/* Styling for form inputs */
+
 .alumni-form input, .alumni-form select {
   padding: 10px;
   border: 1px solid #ddd;
@@ -46,25 +46,25 @@ h1 {
   width: 100%;
 }
 
-/* Focus effect for inputs */
+
 .alumni-form input:focus, .alumni-form select:focus {
   border-color: #4CAF50;
   box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
 }
 
-/* Styling for input placeholders */
+
 .alumni-form input::placeholder, .alumni-form select::placeholder {
   color: #888;
 }
 
-/* Form row layout */
+
 .form-row {
   display: flex;
   gap: 15px;
   width: 100%;
 }
 
-/* Button styling */
+
 button {
   background-color: #4CAF50;
   color: white;

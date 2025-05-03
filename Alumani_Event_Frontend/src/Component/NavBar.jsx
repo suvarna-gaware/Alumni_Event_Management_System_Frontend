@@ -30,7 +30,7 @@ const NavBar = () => {
               <HashLink className="nav-link" smooth to="#event">Events</HashLink>
             </li>
 
-            {/* ✅ Fix this line */}
+           
             <li className="nav-item">
               <Link className="nav-link" to="/login">Login</Link>
             </li>

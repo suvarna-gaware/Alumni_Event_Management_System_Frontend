@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { FaEdit, FaTrash } from "react-icons/fa"; // Importing the icons from react-icons
+import { FaEdit, FaTrash } from "react-icons/fa";
 import "./ViewAlumni.css";
 
 function ViewAlumni() {
@@ -15,7 +15,7 @@ function ViewAlumni() {
     address: "",
     gender: "",
     year: "",
-    status: "",  // Status is either "Yes" or "No"
+    status: "",
   });
   const [loading, setLoading] = useState(false);
 
@@ -40,7 +40,6 @@ function ViewAlumni() {
     setLoading(true);
     try {
       const res = await fetch("http://localhost:8766/viewAllAlumni");
-      if (!res.ok) throw new Error("Failed to fetch alumni");
       const data = await res.json();
       setAlumni(data);
     } catch (err) {
@@ -60,25 +59,17 @@ function ViewAlumni() {
       console.error("Error fetching departments:", err);
     }
   };
+
   const handleSearchByName = async (name) => {
     try {
-      const res = await fetch(`http://localhost:8766/searchAlumniByName/${name}`, {
-        method: "GET", // Change to GET request
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-  
-      if (!res.ok) throw new Error("Search fetch failed");
-  
+      const res = await fetch(`http://localhost:8766/searchAlumniByName/${name}`);
       const data = await res.json();
-      setAlumni(data);  // Set the alumni data in your state
+      setAlumni(data);
     } catch (err) {
       console.error("Search error:", err);
-      setAlumni([]);  // Clear alumni data on error
+      setAlumni([]);
     }
   };
-  
 
   const deleteAlumni = async (alumniid) => {
     if (window.confirm("Are you sure you want to delete this alumni?")) {
@@ -88,7 +79,20 @@ function ViewAlumni() {
         });
         if (res.ok) {
           alert("Alumni deleted successfully!");
-          fetchAllAlumni();  // Re-fetch the list after deletion
+          fetchAllAlumni();
+          if (updateForm.alumniid === alumniid) {
+            setUpdateForm({
+              alumniid: "",
+              deptid: "",
+              name: "",
+              email: "",
+              contact: "",
+              address: "",
+              gender: "",
+              year: "",
+              status: "",
+            });
+          }
         } else {
           alert("Failed to delete alumni.");
         }
@@ -105,17 +109,29 @@ function ViewAlumni() {
 
   const handleUpdateSubmit = async (e) => {
     e.preventDefault();
+
+    const updatedData = {
+      ...updateForm,
+      alumniid: Number(updateForm.alumniid),
+      deptid: Number(updateForm.deptid),
+    };
+
+    console.log("Sending update request with data:", updatedData);
+
     try {
-      const response = await fetch("http://localhost:8766/updateAlumni", {
-        method: "POST",
+      const res = await fetch("http://localhost:8766/updateAlumni", {
+        method: "PUT", // ✅ CHANGED FROM POST TO PUT
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(updateForm),
+        body: JSON.stringify(updatedData),
       });
 
-      if (response.ok) {
-        alert("Alumni updated successfully!");
+      const resultText = await res.text(); // since backend returns a plain string
+
+      if (res.ok) {
+        console.log(`✅ Alumni with ID ${updatedData.alumniid} updated successfully!`);
+        alert(resultText); // shows message from backend
         fetchAllAlumni();
         setUpdateForm({
           alumniid: "",
@@ -126,13 +142,14 @@ function ViewAlumni() {
           address: "",
           gender: "",
           year: "",
-          status: "", // Reset status to default
+          status: "",
         });
       } else {
+        console.error("❌ Update failed:", resultText);
         alert("Failed to update alumni.");
       }
     } catch (error) {
-      console.error("Error updating alumni:", error);
+      console.error("❌ Error during update:", error);
       alert("Error updating alumni.");
     }
   };
@@ -146,7 +163,6 @@ function ViewAlumni() {
     <div className="view-alumni-container">
       <h1>View Alumni</h1>
 
-      {/* Search Form */}
       <form onSubmit={(e) => e.preventDefault()} className="search-form">
         <div className="search-input-wrapper">
           <span className="search-icon">🔍</span>
@@ -159,7 +175,6 @@ function ViewAlumni() {
         </div>
       </form>
 
-      {/* Alumni List */}
       <div className="alumni-list">
         <h2>All Alumni</h2>
         <table>
@@ -217,7 +232,6 @@ function ViewAlumni() {
         </table>
       </div>
 
-      {/* Update Form */}
       {updateForm.alumniid && (
         <div className="update-form">
           <h2>Update Alumni</h2>
@@ -299,6 +313,9 @@ function ViewAlumni() {
             </select>
 
             <button type="submit">Update Alumni</button>
+            <button type="button" onClick={() => setUpdateForm({ alumniid: "" })}>
+              Cancel
+            </button>
           </form>
         </div>
       )}

@@ -1,0 +1,150 @@
+.view-organization-container {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 30px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #fafafa;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+    text-align: center;
+    color: #2d2d2d;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.search-form {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 12px 16px;
+    border-radius: 50px;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.search-icon {
+    color: #007bff;
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.search-input {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 16px;
+    flex: 1;
+    color: #333;
+    padding: 8px;
+    border-radius: 25px;
+}
+
+.search-input::placeholder {
+    color: #aaa;
+}
+
+.organization-list table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.organization-list th, .organization-list td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+    font-size: 16px;
+    color: #333;
+    transition: background-color 0.3s ease;
+}
+
+.organization-list th {
+    background-color: #f8f9fa;
+    color: #007bff;
+    font-weight: 600;
+}
+
+.organization-list td:hover {
+    background-color: #f1f1f1;
+}
+
+.icon-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin: 0 8px;
+    font-size: 18px;
+    transition: color 0.3s ease;
+}
+
+.icon-button:hover {
+    color: #007bff;
+}
+
+.update-form {
+    margin-top: 40px;
+    border-top: 2px solid #ddd;
+    padding-top: 30px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.update-form form {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    margin: auto;
+    gap: 15px;
+}
+
+.update-form input,
+.update-form select {
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    background-color: #fafafa;
+    transition: border-color 0.3s ease;
+}
+
+.update-form input:focus,
+.update-form select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.update-form button {
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.update-form button:hover {
+    background-color: #0056b3;
+}
+
+.update-form button[type="button"] {
+    background-color: #6c757d;
+}
+
+.update-form button[type="button"]:hover {
+    background-color: #5a6268;
+}

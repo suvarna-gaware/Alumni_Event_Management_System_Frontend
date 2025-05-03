@@ -7,15 +7,17 @@ import Events from './Component/Events';
 import About from './Component/About';
 import AdminDashboard from './Component/AdminDashboard';
 import Gallery from './Component/Gallary';
-
 import Footer from './Component/Footer';
 import LoginForm from './Component/LoginForm';
+
+
+import AlumniDashboard from './Component/AlumniDashboard'; 
 
 function AppContent() {
   const location = useLocation();
   const currentPath = location.pathname;
 
-  // Show NavBar only on public pages
+  
   const publicPaths = ['/', '/adminlogin', '/about', '/gallery', '/event', '/account', '/login'];
   const showNavBar = publicPaths.includes(currentPath);
 
@@ -23,7 +25,7 @@ function AppContent() {
     <>
       {showNavBar && <NavBar />}
       <Routes>
-        {/* Public pages */}
+        
         <Route
           path="/"
           element={
@@ -38,11 +40,10 @@ function AppContent() {
         />
         <Route path="/login" element={<LoginForm />} />
 
-        {/* Dashboard routes */}
+        
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
-        {/* Add routes for other dashboards */}
-        {/* <Route path="/alumni-dashboard" element={<AlumniDashboard />} /> */}
-        {/* <Route path="/organization-dashboard" element={<OrganizationDashboard />} /> */}
+        <Route path="/alumni-dashboard" element={<AlumniDashboard />} /> 
+        
       </Routes>
     </>
   );
