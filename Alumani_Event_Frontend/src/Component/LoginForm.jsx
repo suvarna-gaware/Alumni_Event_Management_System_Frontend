@@ -10,29 +10,47 @@ function LoginForm() {
   });
 
   const [response, setResponse] = useState(null);
-  const navigate = useNavigate(); // Use navigate
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const { role, username, password } = loginData;
 
     if (role === 'admin') {
       if (username === 'admin' && password === 'admin123') {
         setResponse({ status: 'success', message: 'Admin login successful' });
-        navigate('/admin-dashboard'); // Navigate to /admin-dashboard
+        navigate('/admin-dashboard');
       } else {
         setResponse({ status: 'error', message: 'Invalid Admin credentials' });
       }
     } else if (role === 'alumni') {
-      if (username === 'alumni@example.com' && password === 'alumni123') {
-        setResponse({ status: 'success', message: 'Alumni login successful' });
-        navigate('/alumni-dashboard');
-      } else {
-        setResponse({ status: 'error', message: 'Invalid Alumni credentials' });
+      try {
+        const res = await fetch('http://localhost:8766/viewAllAlumni');
+        if (!res.ok) throw new Error('Failed to fetch alumni data');
+
+        const alumniList = await res.json();
+        console.log("Alumni List:", alumniList);
+
+        const matchedAlumni = alumniList.find(
+          (alumni) =>
+            alumni.email.trim().toLowerCase() === username.trim().toLowerCase() &&
+            alumni.contact.trim() === password.trim()
+        );
+
+        if (matchedAlumni) {
+          console.log("Matched Alumni:", matchedAlumni);
+          setResponse({ status: 'success', message: 'Alumni login successful' });
+          navigate('/alumni-dashboard', { state: { alumni: matchedAlumni } });
+        } else {
+          setResponse({ status: 'error', message: 'Invalid Alumni credentials' });
+        }
+      } catch (error) {
+        console.error("Error fetching alumni data:", error);
+        setResponse({ status: 'error', message: 'Server error. Please try again.' });
       }
     } else if (role === 'organization') {
       if (username === 'org@example.com' && password === 'org123') {

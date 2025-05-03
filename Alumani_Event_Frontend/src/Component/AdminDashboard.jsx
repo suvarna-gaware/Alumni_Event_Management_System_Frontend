@@ -23,6 +23,8 @@ import EventAttendance from './AdminPages/Eventnattendece';
 import ViweDep from './AdminPages/ViweDep';
 import ViewEvents from './AdminPages/ViewEvent';
 import ViewAlumni from './ViweAlumni';
+import ViewAttendance from './AdminPages/ViweAttendance';
+import ViewOrganization from './AdminPages/ViweOrgnizer';
 
 function AdminDashboard() {
   const navigate = useNavigate();
@@ -54,11 +56,11 @@ function AdminDashboard() {
       case 'department':
         return action === 'add' ? <DepartmentForm /> : <ViweDep />;
       case 'organization':
-        return action === 'add' ? <Organization /> : <p>Organization - View not implemented yet.</p>;
+        return action === 'add' ? <Organization /> : <ViewOrganization/> ;
       case 'events':
         return action === 'add' ? <Event /> : <ViewEvents />;
       case 'attendance':
-        return action === 'add' ? <EventAttendance /> : <p>Attendance - View not implemented yet.</p>;
+        return action === 'add' ? <EventAttendance /> : <ViewAttendance/>;
       case 'feedback':
         return <Feedback />; // Only View for feedback
       default:

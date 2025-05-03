@@ -54,12 +54,10 @@ function ViweDep() {
     return () => clearTimeout(delayDebounce);
   }, [searchName]);
 
-  
   useEffect(() => {
     fetchDepartments();
   }, []);
 
-  
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure to delete this department?")) return;
     const res = await fetch(`http://localhost:8766/deleteDepartment/${id}`, {
@@ -70,7 +68,9 @@ function ViweDep() {
     fetchDepartments();
   };
 
-    const handleUpdate = async () => {
+  const handleUpdate = async () => {
+    console.log("Updating department:", editDept); // For debugging
+
     try {
       const res = await fetch("http://localhost:8766/updateDepartment", {
         method: "PUT",
@@ -78,10 +78,13 @@ function ViweDep() {
         body: JSON.stringify(editDept),
       });
       const msg = await res.text();
+      console.log("Update response:", msg); // Log the response
+
       alert(msg);
       setEditDept({ deptid: "", deptname: "" });
       fetchDepartments();
     } catch (err) {
+      console.error("Update failed:", err);
       alert("Failed to update.");
     }
   };
@@ -90,7 +93,6 @@ function ViweDep() {
     <div className="view-dep-container">
       <h2 className="text-center mb-4">Manage Departments</h2>
 
-      {/* Search Input */}
       <div className="mb-4">
         <input
           type="text"
@@ -101,8 +103,7 @@ function ViweDep() {
         />
       </div>
 
-      {/* Edit Form */}
-      {editDept?.did && (
+      {editDept?.deptid && (
         <div className="edit-section mb-4">
           <h4>Edit Department (ID: {editDept.deptid})</h4>
           <input
@@ -118,7 +119,6 @@ function ViweDep() {
         </div>
       )}
 
-      {/* Department Table */}
       <h3 className="mb-3">Department List</h3>
       <div className="table-responsive">
         <table className="table table-striped table-bordered department-table">

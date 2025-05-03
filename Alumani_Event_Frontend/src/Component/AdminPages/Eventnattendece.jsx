@@ -1,93 +1,163 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const AddAttendance = () => {
   const [formData, setFormData] = useState({
-    Eid: '',
-    Alumni_id: '',
-    Did: '',
-    Status: 0,
+    eventid: '',
+    alumniid: '',  
+    deptid: '',
+    status: 'not attended',
   });
 
-  // Handle form input changes
+  const [events, setEvents] = useState([]);
+  const [alumni, setAlumni] = useState([]);
+  const [departments, setDepartments] = useState([]);
+
+  useEffect(() => {
+    const fetchDropdowns = async () => {
+      try {
+        const [eventRes, alumniRes, deptRes] = await Promise.all([
+          axios.get('http://localhost:8766/viewAllEvents'),
+          axios.get('http://localhost:8766/viewAllAlumni'),
+          axios.get('http://localhost:8766/getDepartments'),
+        ]);
+
+        setEvents(eventRes.data);
+        setAlumni(alumniRes.data);
+        setDepartments(deptRes.data);
+      } catch (error) {
+        console.log('Error fetching dropdown data:', error);
+      }
+    };
+
+    fetchDropdowns();
+  }, []);
+
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const payload = {
+      eventid: parseInt(formData.eventid),
+      alumniid: parseInt(formData.alumniid),  // Match backend field
+      deptid: parseInt(formData.deptid),
+      status: formData.status,
+    };
+
     try {
-      await axios.post('http://localhost:5000/api/attendance', formData);
-      setFormData({ Eid: '', Alumni_id: '', Did: '', Status: 0 });  // Reset form
-      alert("Attendance added successfully!");
-    } catch (err) {
-      console.error('Error adding attendance:', err);
-      alert("There was an error adding the attendance.");
+      const response = await fetch('http://localhost:8766/createAttendance', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        alert('Attendance added successfully!');
+        setFormData({
+          eventid: '',
+          alumniid: '',
+          deptid: '',
+          status: 'not attended',
+        });
+      } else {
+        const errorData = await response.text();
+        console.error('Server error:', errorData);
+        alert('Failed to add attendance.');
+      }
+    } catch (error) {
+      console.error('Fetch error:', error);
+      alert('Network or server error occurred.');
     }
   };
 
   return (
     <div className="container mt-4">
       <h3 className="mb-4">Add Event Attendance</h3>
-
-      <form onSubmit={handleSubmit} className="mb-4 border p-3 rounded bg-light">
+      <form onSubmit={handleSubmit} className="border p-4 rounded bg-light shadow-sm">
+        
+        {/* Event Dropdown */}
         <div className="mb-3">
           <label className="form-label">Select Event</label>
           <select
             className="form-select"
-            name="Eid"
-            value={formData.Eid}
+            name="eventid"
+            value={formData.eventid}
             onChange={handleChange}
             required
           >
             <option value="">-- Select Event --</option>
-            {/* Add events dynamically here */}
+            {events.map((event) => (
+              <option key={event.eventid} value={event.eventid}>
+                {event.eventname}
+              </option>
+            ))}
           </select>
         </div>
 
+        {/* Alumni Dropdown */}
         <div className="mb-3">
           <label className="form-label">Select Alumni</label>
           <select
             className="form-select"
-            name="Alumni_id"
-            value={formData.Alumni_id}
+            name="alumniid" // lowercase
+            value={formData.alumniid}
             onChange={handleChange}
             required
           >
             <option value="">-- Select Alumni --</option>
-            {/* Add alumni dynamically here */}
+            {alumni.map((a) => (
+              <option key={a.alumniid} value={a.alumniid}>
+                {a.name}
+              </option>
+            ))}
           </select>
         </div>
 
+        {/* Department Dropdown */}
         <div className="mb-3">
           <label className="form-label">Select Department</label>
           <select
             className="form-select"
-            name="Did"
-            value={formData.Did}
+            name="deptid"
+            value={formData.deptid}
             onChange={handleChange}
             required
           >
             <option value="">-- Select Department --</option>
-            {/* Add departments dynamically here */}
+            {departments.map((d) => (
+              <option key={d.deptid} value={d.deptid}>
+                {d.deptname}
+              </option>
+            ))}
           </select>
         </div>
 
+        {/* Status Dropdown */}
         <div className="mb-3">
-          <label className="form-label">Status (0 = Absent, 1 = Present)</label>
+          <label className="form-label">Status</label>
           <select
             className="form-select"
-            name="Status"
-            value={formData.Status}
+            name="status"
+            value={formData.status}
             onChange={handleChange}
+            required
           >
-            <option value={0}>Absent</option>
-            <option value={1}>Present</option>
+            <option value="not attended">Not Attended</option>
+            <option value="attended">Attended</option>
           </select>
         </div>
 
-        <button type="submit" className="btn btn-primary">Add Attendance</button>
+        <button type="submit" className="btn btn-success w-100">
+          Submit Attendance
+        </button>
       </form>
     </div>
   );
