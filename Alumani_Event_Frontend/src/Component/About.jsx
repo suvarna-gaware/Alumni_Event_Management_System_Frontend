@@ -16,7 +16,7 @@ const About = () => {
             <p className="small"><li>Reconnect alumni with their peers and institution</li>
           <li>Foster mentorship and guidance for current students</li>
           <li>Celebrate milestones and share inspirational stories</li>
-          <li>Encourage donations, support, and institutional growth</li></p> {/* Smaller text */}
+          <li>Encourage donations, support, and institutional growth</li></p> 
           </div>
         </div>
 
@@ -31,12 +31,12 @@ const About = () => {
         </div>
 
         <div className="col-12">
-          <div className="p-3 border rounded shadow-sm bg-light"> {/* Reduced padding */}
-            <h5 className="text-success">Features</h5> {/* Reduced header size */}
+          <div className="p-3 border rounded shadow-sm bg-light"> 
+            <h5 className="text-success">Features</h5> 
             <ul className="list-group list-group-flush">
-              <li className="list-group-item small">✅ Alumni Management</li> {/* Smaller text */}
-              <li className="list-group-item small">✅ Event Registration</li> {/* Smaller text */}
-              <li className="list-group-item small">✅ Feedback System</li> {/* Smaller text */}
+              <li className="list-group-item small">✅ Alumni Management</li> 
+              <li className="list-group-item small">✅ Event Registration</li>
+              <li className="list-group-item small">✅ Feedback System</li> 
             </ul>
           </div>
         </div>

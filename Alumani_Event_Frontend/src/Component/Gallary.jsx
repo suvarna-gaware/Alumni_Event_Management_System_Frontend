@@ -2,12 +2,12 @@ import React from 'react';
 
 const Gallery = () => {
   const images = [
-    { src: "src/assets/class.jpg", alt: "Image 1", year: "2021" },
-    { src: "src/assets/photo2.jpg", alt: "Image 2", year: "2020" },
-    { src: "src/assets/P1.jpg", alt: "Image 3", year: "2019" },
-    { src: "src/assets/img2.jpg", alt: "Image 4", year: "2022" },
-    { src: "src/assets/P2.jpg", alt: "Image 5", year: "2023" },
-    { src: "src/assets/party.jpg", alt: "Image 6", year: "2021" },
+    { src: "src/assets/class.jpg", alt: "Image 1", year: "2020" },
+    { src: "src/assets/photo2.jpg", alt: "Image 2", year: "2021" },
+    { src: "src/assets/P1.jpg", alt: "Image 3", year: "2022" },
+    { src: "src/assets/img2.jpg", alt: "Image 4", year: "2023" },
+    { src: "src/assets/P2.jpg", alt: "Image 5", year: "2024" },
+    { src: "src/assets/party.jpg", alt: "Image 6", year: "2025" },
   ];
 
   return (

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import "./ViewEvents.css";
 import { FaSearch, FaEdit, FaTrashAlt } from "react-icons/fa";
+import Swal from 'sweetalert2'; 
 
 function ViewEvent() {
   const [events, setEvents] = useState([]);
@@ -9,6 +10,7 @@ function ViewEvent() {
   const [searchName, setSearchName] = useState("");
   const [editEvent, setEditEvent] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [selectedTab, setSelectedTab] = useState("upcoming");
 
   useEffect(() => {
     fetchEvents();
@@ -22,7 +24,6 @@ function ViewEvent() {
         handleSearchByName(searchName.trim());
       }
     }, 400);
-
     return () => clearTimeout(delayDebounce);
   }, [searchName]);
 
@@ -54,7 +55,7 @@ function ViewEvent() {
 
   const handleSearchByName = async (name) => {
     try {
-      const res = await fetch(`http://localhost:8766/searchEventByName/${name}`); // Corrected endpoint
+      const res = await fetch(`http://localhost:8766/searchEventByName/${name}`);
       if (!res.ok) throw new Error("Search fetch failed");
       const data = await res.json();
       const filtered = Array.isArray(data) ? data : [data];
@@ -69,16 +70,28 @@ function ViewEvent() {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this event?")) return;
-    try {
-      const res = await fetch(`http://localhost:8766/deleteEvent/${id}`, {
-        method: "DELETE",
-      });
-      const msg = await res.text();
-      alert(msg);
-      fetchEvents();
-    } catch (err) {
-      console.error("Delete error:", err);
+    // Using SweetAlert for confirmation before deletion
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const res = await fetch(`http://localhost:8766/deleteEvent/${id}`, {
+          method: "DELETE",
+        });
+        const msg = await res.text();
+        Swal.fire("Deleted!", msg, "success");
+        fetchEvents();
+      } catch (err) {
+        console.error("Delete error:", err);
+        Swal.fire("Error!", "There was an error deleting the event.", "error");
+      }
     }
   };
 
@@ -90,22 +103,23 @@ function ViewEvent() {
         body: JSON.stringify(editEvent),
       });
       const msg = await res.text();
-      alert(msg);
+      Swal.fire("Updated!", msg, "success");
       setEditEvent(null);
       fetchEvents();
     } catch (err) {
       console.error("Update error:", err);
+      Swal.fire("Error!", "There was an error updating the event.", "error");
     }
   };
 
   const renderEventCard = (event) => (
     <div key={event.eventid} className="event-card">
-      <div className="event-field"><label>ID:</label> <span>{event.eventid}</span></div>
-      <div className="event-field"><label>Event Name:</label> <span>{event.eventname}</span></div>
-      <div className="event-field"><label>Date:</label> <span>{event.eventdate}</span></div>
-      <div className="event-field"><label>Time:</label> <span>{event.eventtime}</span></div>
-      <div className="event-field"><label>Location:</label> <span>{event.location}</span></div>
-      <div className="event-field"><label>Department:</label> <span>{event.deptname || event.deptid}</span></div>
+      {/* Remove the event ID display */}
+      <div className="event-field"><label>Event Name:</label><span>{event.eventname}</span></div>
+      <div className="event-field"><label>Date:</label><span>{event.eventdate}</span></div>
+      <div className="event-field"><label>Time:</label><span>{event.eventtime}</span></div>
+      <div className="event-field"><label>Location:</label><span>{event.location}</span></div>
+      <div className="event-field"><label>Department:</label><span>{event.deptname || event.deptid}</span></div>
       <div className="event-actions">
         <button className="edit-button" onClick={() => setEditEvent(event)}>
           <FaEdit /> Edit
@@ -121,7 +135,6 @@ function ViewEvent() {
     <div className="view-event-container">
       <h2>Manage Events</h2>
 
-      {/* Search Box */}
       <div className="modern-search-box">
         <FaSearch className="modern-search-icon" />
         <input
@@ -133,7 +146,6 @@ function ViewEvent() {
         />
       </div>
 
-      {/* Edit Form */}
       {editEvent && (
         <div className="edit-section">
           <h4>Edit Event (ID: {editEvent.eventid})</h4>
@@ -164,37 +176,31 @@ function ViewEvent() {
             placeholder="Department ID"
           />
           <div className="edit-buttons">
-            <button onClick={handleUpdate}>
-              <FaEdit /> Update
-            </button>
-            <button
-              className="cancel-btn"
-              onClick={() => setEditEvent(null)}
-            >
-              Cancel
-            </button>
+            <button onClick={handleUpdate}><FaEdit /> Update</button>
+            <button className="cancel-btn" onClick={() => setEditEvent(null)}>Cancel</button>
           </div>
         </div>
       )}
 
-      {/* Upcoming Events */}
-      <h3>Upcoming Events ({upcomingEvents.length})</h3>
-      <div className="event-list">
-        {loading ? <p>Loading...</p> :
-          upcomingEvents.length > 0 ?
-            upcomingEvents.map(renderEventCard) :
-            <p>No upcoming events.</p>
-        }
+      <div className="tabs">
+        <button className={selectedTab === "upcoming" ? "tab active" : "tab"} onClick={() => setSelectedTab("upcoming")}>
+          Upcoming Events ({upcomingEvents.length})
+        </button>
+        <button className={selectedTab === "past" ? "tab active" : "tab"} onClick={() => setSelectedTab("past")}>
+          Past Events ({pastEvents.length})
+        </button>
       </div>
 
-      {/* Past Events */}
-      <h3>Past Events ({pastEvents.length})</h3>
+      <h3>{selectedTab === "upcoming" ? "These are Upcoming Events" : "These are Past Events"}</h3>
+
       <div className="event-list">
-        {loading ? <p>Loading...</p> :
-          pastEvents.length > 0 ?
-            pastEvents.map(renderEventCard) :
-            <p>No past events.</p>
-        }
+        {loading ? (
+          <p>Loading...</p>
+        ) : selectedTab === "upcoming" ? (
+          upcomingEvents.length > 0 ? upcomingEvents.map(renderEventCard) : <p>No upcoming events.</p>
+        ) : (
+          pastEvents.length > 0 ? pastEvents.map(renderEventCard) : <p>No past events.</p>
+        )}
       </div>
     </div>
   );

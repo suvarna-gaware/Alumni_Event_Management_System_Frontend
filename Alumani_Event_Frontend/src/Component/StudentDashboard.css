@@ -1,0 +1,106 @@
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #2c3e50;
+  color: white;
+  padding: 20px;
+  transition: width 0.3s ease;
+}
+
+.student-panel-title {
+  font-size: 24px;
+  color: white;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.student-panel-title .icon {
+  font-size: 30px;
+  margin-right: 10px;
+}
+
+.menu-section {
+  margin-bottom: 10px;
+}
+
+.section-title {
+  cursor: pointer;
+  font-weight: bold;
+  color: #ecf0f1;
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.section-title:hover {
+  background-color: #34495e;
+}
+
+.icon {
+  margin-right: 10px;
+  font-size: 20px;
+}
+
+.label {
+  font-size: 18px;
+}
+
+.arrow {
+  margin-left: auto;
+  font-size: 16px;
+}
+
+.dropdown {
+  margin-top: 10px;
+  padding-left: 20px;
+}
+
+.dropdown p {
+  cursor: pointer;
+  color: #bdc3c7;
+  margin: 5px 0;
+  transition: color 0.3s ease;
+}
+
+.dropdown p:hover {
+  color: #1abc9c;
+}
+
+.logout-button {
+  background: none;
+  border: none;
+  color: #ecf0f1;
+  font-size: 18px;
+  padding: 10px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+}
+
+.logout-button:hover {
+  background-color: #34495e;
+}
+
+.main-content {
+  flex: 1;
+  padding: 30px;
+  background-color: #ecf0f1;
+}
+
+.placeholder-text {
+  font-size: 18px;
+  color: #555;
+  text-align: center;
+  margin-top: 100px;
+}

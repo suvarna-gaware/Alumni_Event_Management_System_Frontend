@@ -22,13 +22,20 @@ function LoginForm() {
 
     if (role === 'admin') {
       if (username === 'admin' && password === 'admin123') {
+
+
         setResponse({ status: 'success', message: 'Admin login successful' });
         navigate('/admin-dashboard');
       } else {
         setResponse({ status: 'error', message: 'Invalid Admin credentials' });
       }
-    } else if (role === 'alumni') {
+    }
+    
+    /*
+======================================================================
+    else if (role === 'alumni') {
       try {
+        console.log(loginData.username+"  "+loginData.password);
         const res = await fetch('http://localhost:8766/viewAllAlumni');
         if (!res.ok) throw new Error('Failed to fetch alumni data');
 
@@ -52,7 +59,46 @@ function LoginForm() {
         console.error("Error fetching alumni data:", error);
         setResponse({ status: 'error', message: 'Server error. Please try again.' });
       }
-    } else if (role === 'organization') {
+    }
+    ==========================================================================
+*/    
+    
+
+
+
+else if (role === 'alumni') {
+  try {
+    const res = await fetch('http://localhost:8766/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: username.trim(),
+        contact: password.trim()
+      })
+    });
+
+    if (res.ok) {
+      const matchedAlumni = await res.json();
+      console.log(matchedAlumni);// all data  print
+      setResponse({ status: 'success', message: 'Alumni login successful' });
+      navigate('/alumni-dashboard', { state: { alumni: matchedAlumni } });
+      
+    
+      setResponse({ status: 'error', message: 'Invalid Alumni credentials' });
+    }
+  } catch (error) {
+    console.error("Error during alumni login:", error);
+    setResponse({ status: 'error', message: 'Server error. Please try again.' });
+  }
+}
+
+
+//=============================================================================
+    
+    
+    else if (role === 'organization') {
       if (username === 'org@example.com' && password === 'org123') {
         setResponse({ status: 'success', message: 'Organization login successful' });
         navigate('/organization-dashboard');

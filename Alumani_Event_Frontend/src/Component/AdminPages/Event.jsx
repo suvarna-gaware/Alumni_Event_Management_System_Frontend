@@ -1,78 +1,92 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
 import "./EventForm.css";
 
 function EventForm() {
   const [form, setForm] = useState({
-    deptid: "",   
+    deptid: "",
     eventname: "",
     eventdate: "",
     eventtime: "",
-    location: ""
+    location: "",
   });
 
   const [departments, setDepartments] = useState([]);
   const [loadingDepartments, setLoadingDepartments] = useState(true);
 
-  // Fetch departments
   useEffect(() => {
-    axios.get("http://localhost:8766/getDepartments")
+    axios
+      .get("http://localhost:8766/getDepartments")
       .then((res) => {
         console.log("Departments fetched:", res.data);
         setDepartments(res.data);
       })
       .catch((err) => {
         console.error("Failed to fetch departments:", err);
-        alert("Failed to load departments. Please try again later.");
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Failed to load departments. Please try again later.",
+        });
       })
       .finally(() => {
         setLoadingDepartments(false);
       });
   }, []);
 
-  // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prevForm) => ({
       ...prevForm,
-      [name]: value
+      [name]: value,
     }));
   };
 
-  // Submit form
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!form.deptid) {
-      alert("Please select a department.");
+      Swal.fire({
+        icon: "warning",
+        title: "Missing Department",
+        text: "Please select a department.",
+      });
       return;
     }
 
     const payload = {
-      deptid: parseInt(form.deptid, 10), 
+      deptid: parseInt(form.deptid, 10),
       eventname: form.eventname.trim(),
       eventdate: form.eventdate,
       eventtime: form.eventtime,
-      location: form.location.trim()
+      location: form.location.trim(),
     };
 
     console.log("Submitting payload:", payload);
 
     try {
       const response = await axios.post("http://localhost:8766/createEvent", payload);
-      alert(response.data); 
-      
-      // Reset form after successful submit
+      Swal.fire({
+        icon: "success",
+        title: "Event Created",
+        text: response.data,
+      });
+
       setForm({
         deptid: "",
         eventname: "",
         eventdate: "",
         eventtime: "",
-        location: ""
+        location: "",
       });
     } catch (error) {
       console.error("Error submitting event:", error);
-      alert("Failed to create event. Please check the details and try again.");
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Failed to create event. Please check the details and try again.",
+      });
     }
   };
 
@@ -81,10 +95,8 @@ function EventForm() {
       <form className="event-form" onSubmit={handleSubmit}>
         <div className="form-header">
           <h1>Create Event</h1>
-          <p>Please fill out the event details below.</p>
-        </div>
+            </div>
 
-        {/* Department Selection */}
         <label htmlFor="deptid">Select Department</label>
         <select
           id="deptid"
@@ -107,7 +119,6 @@ function EventForm() {
           )}
         </select>
 
-        {/* Event Name */}
         <label htmlFor="eventname">Event Name</label>
         <input
           id="eventname"
@@ -118,7 +129,6 @@ function EventForm() {
           required
         />
 
-        {/* Event Date */}
         <label htmlFor="eventdate">Event Date</label>
         <input
           id="eventdate"
@@ -129,7 +139,6 @@ function EventForm() {
           required
         />
 
-        {/* Event Time */}
         <label htmlFor="eventtime">Event Time</label>
         <input
           id="eventtime"
@@ -140,7 +149,6 @@ function EventForm() {
           required
         />
 
-        {/* Location */}
         <label htmlFor="location">Location</label>
         <input
           id="location"
@@ -151,8 +159,9 @@ function EventForm() {
           required
         />
 
-        {/* Submit Button */}
-        <button type="submit">Create Event</button>
+        <button type="submit" className="submit-button">
+          Create Event
+        </button>
       </form>
     </div>
   );

@@ -1,6 +1,3 @@
-
-
-
 .alumni-form-container {
   display: flex;
   justify-content: center;
@@ -9,7 +6,6 @@
   min-height: 100vh;
   background-color: #f4f4f4;
 }
-
 
 .alumni-form-box {
   background-color: #fff;
@@ -21,7 +17,6 @@
   box-sizing: border-box;
 }
 
-
 h1 {
   text-align: center;
   margin-bottom: 20px;
@@ -29,13 +24,11 @@ h1 {
   color: #333;
 }
 
-
 .alumni-form {
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
-
 
 .alumni-form input, .alumni-form select {
   padding: 10px;
@@ -46,17 +39,14 @@ h1 {
   width: 100%;
 }
 
-
 .alumni-form input:focus, .alumni-form select:focus {
   border-color: #4CAF50;
   box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
 }
 
-
 .alumni-form input::placeholder, .alumni-form select::placeholder {
   color: #888;
 }
-
 
 .form-row {
   display: flex;
@@ -64,10 +54,9 @@ h1 {
   width: 100%;
 }
 
-
 button {
-  background-color: #4CAF50;
-  color: white;
+  background-color: #007bff; /* Blue color */
+  color: white; /* White text */
   padding: 12px;
   border: none;
   border-radius: 4px;
@@ -77,20 +66,17 @@ button {
 }
 
 button:hover {
-  background-color: #45a049;
+  background-color: #0056b3; /* Darker blue on hover */
 }
 
-/* Styling for the select options */
 select {
   background-color: #f9f9f9;
 }
 
-/* Add some margin to the bottom of the form for spacing */
 button[type="submit"] {
   margin-top: 20px;
 }
 
-/* For responsive design */
 @media (max-width: 600px) {
   .alumni-form-box {
     padding: 20px;

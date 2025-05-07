@@ -1,99 +1,74 @@
-/* Make the outer container full viewport height and prevent overflow */
 .dashboard-container {
   display: flex;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
+  background-color: #f5f9fa;
 }
 
-/* Sidebar fixed to the left, always visible */
 .sidebar {
-  width: 250px;
+  width: 260px;
   background: linear-gradient(to bottom, #1c1c1c, #2e2e2e);
   color: white;
   padding: 20px;
-  position: fixed;
-  top: 0;
-  left: 0;
   height: 100vh;
   overflow-y: auto;
-  z-index: 1000; /* ensures it's on top */
+  position: fixed;
+  top: 60px; /* Leave space for navbar */
+  left: 0;
 }
 
-.sidebar h2 {
-  margin: 0 0 20px;
-  font-size: 22px;
-  text-align: center;
+.main-content {
+  margin-left: 260px;
+  padding: 30px;
+  flex-grow: 1;
+  background-color: #f5f9fa;
+  min-height: 100vh;
+}
+
+.admin-panel-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  color: white;
 }
 
 .menu-section {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 .section-title {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   cursor: pointer;
-  padding: 10px;
-  border-radius: 5px;
-  transition: 0.3s;
+  padding: 10px 0;
+  font-weight: 600;
+  transition: color 0.3s ease;
 }
 
 .section-title:hover {
-  background-color: #333;
-}
-
-.section-title .icon {
-  margin-right: 10px;
+  color: #c0c0c0;
 }
 
 .dropdown {
-  margin-left: 20px;
-  padding-left: 10px;
-  border-left: 2px solid gray;
+  padding-left: 20px;
+  padding-top: 5px;
 }
 
 .dropdown p {
   cursor: pointer;
-  margin: 5px 0;
-  padding: 5px;
+  margin: 6px 0;
+  font-size: 0.95rem;
 }
 
 .dropdown p:hover {
-  background-color: #444;
-  border-radius: 4px;
+  color: #c0c0c0;
 }
 
-.logout-button {
-  margin-top: 30px;
-  background-color: #d9534f;
-  color: white;
-  padding: 10px;
-  width: 100%;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-.logout-button:hover {
-  background-color: #c9302c;
-}
-
-/* Main content takes full height, scrolls separately */
-.main-content {
-  margin-left: 250px; /* match sidebar width */
-  padding: 20px;
-  height: 100vh;
-  overflow-y: auto;
-  background-color: #f4f4f4;
-  width: calc(100% - 250px);
-}
-
-/* Admin panel title style */
-.admin-panel-title {
-  display: flex;
-  align-items: center;
-  font-size: 1.6rem;
-  color: white;
-  margin-bottom: 1rem;
+.placeholder-text {
+  font-size: 1.3rem;
+  text-align: center;
+  margin-top: 100px;
+  color: #555;
 }

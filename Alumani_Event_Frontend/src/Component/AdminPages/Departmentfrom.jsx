@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Swal from "sweetalert2";
 import "./DepartmentForm.css"; 
 
 function DepartmentForm() {
@@ -21,14 +22,26 @@ function DepartmentForm() {
 
       const result = await response.text();
       if (response.ok) {
-        alert(result);
-        setForm({ deptname: "" }); 
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: result,
+        });
+        setForm({ deptname: "" });
       } else {
-        alert("Failed to create department: " + result);
+        Swal.fire({
+          icon: "error",
+          title: "Failed",
+          text: "Failed to create department: " + result,
+        });
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("Something went wrong!");
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Something went wrong!",
+      });
     }
   };
 

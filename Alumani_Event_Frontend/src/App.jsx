@@ -11,14 +11,15 @@ import Footer from './Component/Footer';
 import LoginForm from './Component/LoginForm';
 
 
-import AlumniDashboard from './Component/AlumniDashboard'; 
+// import AlumniDashboard from './Component/AlumniDashboard'; 
+import StudentDashbord from './Component/StudentDashBord';
 
 function AppContent() {
   const location = useLocation();
   const currentPath = location.pathname;
 
   
-  const publicPaths = ['/', '/adminlogin', '/about', '/gallery', '/event', '/account', '/login'];
+  const publicPaths = ['/','/studentlogin', '/adminlogin', '/about', '/gallery', '/event', '/account', '/login'];
   const showNavBar = publicPaths.includes(currentPath);
 
   return (
@@ -42,7 +43,7 @@ function AppContent() {
 
         
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
-        <Route path="/alumni-dashboard" element={<AlumniDashboard />} /> 
+        <Route path="/alumni-dashboard" element={<StudentDashbord/>} /> 
         
       </Routes>
     </>
