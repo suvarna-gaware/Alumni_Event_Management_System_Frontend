@@ -1,35 +1,73 @@
 .organization-form {
   max-width: 500px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  margin: 40px auto;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
 }
 
 .organization-form h2 {
   text-align: center;
+  margin-bottom: 24px;
+  font-size: 26px;
+  font-weight: 600;
+  color: #2c3e50;
 }
 
-.mb-3 {
-  margin-bottom: 1rem;
+.organization-form .form-group {
+  margin-bottom: 18px;
 }
 
-.form-label {
-  font-weight: bold;
+.organization-form label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #333;
 }
 
-.form-select, .form-control {
+.organization-form .form-control,
+.organization-form .form-select {
   width: 100%;
-  padding: 0.5rem;
-  font-size: 1rem;
+  padding: 10px 14px;
+  font-size: 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  transition: border-color 0.3s ease;
 }
 
-.d-grid {
-  display: grid;
-  gap: 1rem;
+.organization-form .form-control:focus,
+.organization-form .form-select:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.15);
 }
 
-.btn {
-  padding: 0.75rem;
-  font-size: 1rem;
+.organization-form .btn-submit {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.2s;
+  margin-top: 10px;
+}
+
+.organization-form .btn-submit:hover {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 576px) {
+  .organization-form {
+    padding: 20px;
+  }
+
+  .organization-form h2 {
+    font-size: 22px;
+  }
 }

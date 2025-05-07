@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Swal from "sweetalert2";
 import "./AlumniForm.css";
 
 function AlumniForm() {
@@ -27,6 +28,52 @@ function AlumniForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Basic frontend validation
+    const { name, email, deptid, year, gender, contact, status, address } = form;
+    if (!name || !email || !deptid || !year || !gender || !contact || !status || !address) {
+      Swal.fire({
+        icon: "warning",
+        title: "Missing Fields",
+        text: "Please fill out all fields before submitting.",
+      });
+      return;
+    }
+
+    // Contact validation (must be 10 digits)
+    if (!/^[0-9]{10}$/.test(contact)) {
+      Swal.fire({
+        icon: "error",
+        title: "Invalid Contact",
+        text: "Contact number must be 10 digits.",
+      });
+      return;
+    }
+
+    // Email validation (basic format)
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      Swal.fire({
+        icon: "error",
+        title: "Invalid Email",
+        text: "Please enter a valid email address.",
+      });
+      return;
+    }
+
+    // Confirmation popup before submitting the form
+    const confirmResult = await Swal.fire({
+      title: "Are you sure?",
+      text: "Do you want to create this alumni record?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, create it!",
+      cancelButtonText: "Cancel",
+    });
+
+    if (!confirmResult.isConfirmed) {
+      return; // Exit if the user cancels
+    }
+
     try {
       const response = await fetch("http://localhost:8766/createAlumni", {
         method: "POST",
@@ -37,7 +84,11 @@ function AlumniForm() {
       });
 
       if (response.ok) {
-        alert("Alumni Created Successfully!");
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "Alumni Created Successfully!",
+        });
         setForm({
           deptid: "",
           name: "",
@@ -49,20 +100,33 @@ function AlumniForm() {
           status: "",
         });
       } else {
-        alert("Failed to create alumni!");
+        Swal.fire({
+          icon: "error",
+          title: "Failed",
+          text: "Failed to create alumni!",
+        });
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("Error creating alumni!");
+      Swal.fire({
+        icon: "error",
+        title: "Server Error",
+        text: "An error occurred while creating alumni.",
+      });
     }
   };
+
+  // Generate years from current year down to 1980
+  const passoutYears = Array.from(
+    { length: new Date().getFullYear() - 1980 + 1 },
+    (_, i) => new Date().getFullYear() - i
+  );
 
   return (
     <div className="alumni-form-container">
       <div className="alumni-form-box">
         <h1>Alumni Registration</h1>
         <form className="alumni-form" onSubmit={handleSubmit}>
-          {/* Alumni Name */}
           <input
             type="text"
             name="name"
@@ -72,7 +136,6 @@ function AlumniForm() {
             required
           />
 
-          {/* Email */}
           <input
             type="email"
             name="email"
@@ -82,7 +145,6 @@ function AlumniForm() {
             required
           />
 
-          {/* Department dropdown and Passout Year in the same row */}
           <div className="form-row">
             <select
               name="deptid"
@@ -105,7 +167,7 @@ function AlumniForm() {
               required
             >
               <option value="">Select Passout Year</option>
-              {Array.from({ length: 50 }, (_, i) => 1980 + i).map((year) => (
+              {passoutYears.map((year) => (
                 <option key={year} value={year}>
                   {year}
                 </option>
@@ -113,7 +175,6 @@ function AlumniForm() {
             </select>
           </div>
 
-          {/* Gender and Contact in the same row */}
           <div className="form-row">
             <select
               name="gender"
@@ -134,10 +195,11 @@ function AlumniForm() {
               value={form.contact}
               onChange={handleChange}
               required
+              inputMode="numeric"
+              pattern="[0-9]*"
             />
           </div>
 
-          {/* Status and Address in the same row */}
           <div className="form-row">
             <select
               name="status"
@@ -160,7 +222,6 @@ function AlumniForm() {
             />
           </div>
 
-          {/* Submit Button */}
           <button type="submit">Add Alumni</button>
         </form>
       </div>

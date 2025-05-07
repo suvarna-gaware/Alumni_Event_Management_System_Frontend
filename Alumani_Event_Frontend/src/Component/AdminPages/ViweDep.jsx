@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import "./ViweDep.css";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import Swal from "sweetalert2"; // Import SweetAlert2
+import "./ViweDep.css";
 
 function ViweDep() {
   const [departments, setDepartments] = useState([]);
@@ -59,18 +60,31 @@ function ViweDep() {
   }, []);
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure to delete this department?")) return;
-    const res = await fetch(`http://localhost:8766/deleteDepartment/${id}`, {
-      method: "DELETE",
+    // SweetAlert for confirmation
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You will not be able to recover this department!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
     });
-    const msg = await res.text();
-    alert(msg);
-    fetchDepartments();
+
+    if (result.isConfirmed) {
+      try {
+        const res = await fetch(`http://localhost:8766/deleteDepartment/${id}`, {
+          method: "DELETE",
+        });
+        const msg = await res.text();
+        Swal.fire("Deleted!", msg, "success"); // Success alert
+        fetchDepartments();
+      } catch (err) {
+        Swal.fire("Error!", "Failed to delete the department.", "error"); // Error alert
+      }
+    }
   };
 
   const handleUpdate = async () => {
-    console.log("Updating department:", editDept); // For debugging
-
     try {
       const res = await fetch("http://localhost:8766/updateDepartment", {
         method: "PUT",
@@ -78,14 +92,12 @@ function ViweDep() {
         body: JSON.stringify(editDept),
       });
       const msg = await res.text();
-      console.log("Update response:", msg); // Log the response
-
-      alert(msg);
+      Swal.fire("Updated!", msg, "success"); // Success alert
       setEditDept({ deptid: "", deptname: "" });
       fetchDepartments();
     } catch (err) {
       console.error("Update failed:", err);
-      alert("Failed to update.");
+      Swal.fire("Error!", "Failed to update the department.", "error"); // Error alert
     }
   };
 
@@ -113,9 +125,17 @@ function ViweDep() {
               setEditDept({ ...editDept, deptname: e.target.value })
             }
           />
-          <button className="btn btn-success" onClick={handleUpdate}>
-            <FaEdit className="me-1" /> Update
-          </button>
+          <div>
+            <button className="btn btn-success me-2" onClick={handleUpdate}>
+              <FaEdit className="me-1" /> Update
+            </button>
+            <button
+              className="btn btn-secondary"
+              onClick={() => setEditDept({ deptid: "", deptname: "" })}
+            >
+              Cancel
+            </button>
+          </div>
         </div>
       )}
 

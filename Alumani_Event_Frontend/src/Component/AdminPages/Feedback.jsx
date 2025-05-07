@@ -10,7 +10,7 @@ const FeedbackForm = () => {
 
   const [alumni, setAlumni] = useState([]);
 
-  // Fetch alumni data
+  
   useEffect(() => {
     const fetchAlumni = async () => {
       try {

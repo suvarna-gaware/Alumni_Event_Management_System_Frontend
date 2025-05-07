@@ -7,12 +7,12 @@ const ViewAttendance = () => {
   const [editIndex, setEditIndex] = useState(null);
   const [editData, setEditData] = useState({
     eventid: '',
-    alumni_name: '',
-    deptname: '',
+    alumni_id: '',
+    deptid: '',
     status: 'not attended',
   });
 
-  // Fetch all attendance records from the backend
+  // Fetch attendance data
   const fetchAttendance = async () => {
     try {
       const response = await axios.get('http://localhost:8766/getallAttendance');
@@ -26,23 +26,22 @@ const ViewAttendance = () => {
     fetchAttendance();
   }, []);
 
-  // Delete attendance record based on ID
-  const deleteAttendance = async (id) => {
+  // Delete attendance
+  const deleteAttendance = async (fid) => {
     try {
-      const url = `http://localhost:8766/deleteAttendance/${id}`;
-      await axios.delete(url); // Send DELETE request with the ID
-      fetchAttendance(); // Re-fetch the attendance list after deletion
+      await axios.delete(`http://localhost:8766/deleteAttendance/${fid}`);
+      fetchAttendance();
     } catch (error) {
       console.error('Error deleting attendance:', error);
     }
   };
 
-  // Update the attendance record
+  // Update attendance (POST/PUT without fid in URL)
   const handleUpdate = async () => {
     try {
-      await axios.put('http://localhost:8766/updateAttendance', editData);
+      await axios.put(`http://localhost:8766/updateAttendance`, editData); // fid removed from URL
       setEditIndex(null);
-      fetchAttendance(); // Re-fetch the updated list after updating
+      fetchAttendance();
     } catch (error) {
       console.error('Error updating attendance:', error);
     }
@@ -54,7 +53,7 @@ const ViewAttendance = () => {
       <table className="attendance-table">
         <thead>
           <tr>
-            <th>Event ID</th>
+            <th>Event Name</th>
             <th>Alumni Name</th>
             <th>Department</th>
             <th>Status</th>
@@ -63,10 +62,10 @@ const ViewAttendance = () => {
         </thead>
         <tbody>
           {attendanceList.map((item, index) => (
-            <tr key={`${item.Eid}-${item.alumni_name}-${item.deptname}`}>
+            <tr key={`att-${item.Eid}-${item.Alumni_id}-${item.Did}`}>
               {editIndex === index ? (
                 <>
-                  <td>{item.Eid}</td>
+                  <td>{item.eventname}</td>
                   <td>{item.alumni_name}</td>
                   <td>{item.deptname}</td>
                   <td>
@@ -81,17 +80,23 @@ const ViewAttendance = () => {
                     </select>
                   </td>
                   <td>
-                    <button onClick={handleUpdate} style={{ background: 'green', color: 'white' }}>
+                    <button
+                      onClick={handleUpdate}
+                      style={{ backgroundColor: 'green', color: 'white', marginRight: '5px' }}
+                    >
                       Save
                     </button>
-                    <button onClick={() => setEditIndex(null)} style={{ background: 'red', color: 'white' }}>
+                    <button
+                      onClick={() => setEditIndex(null)}
+                      style={{ backgroundColor: 'gray', color: 'white' }}
+                    >
                       Cancel
                     </button>
                   </td>
                 </>
               ) : (
                 <>
-                  <td>{item.Eid}</td>
+                  <td>{item.eventname}</td>
                   <td>{item.alumni_name}</td>
                   <td>{item.deptname}</td>
                   <td>{item.status}</td>
@@ -101,18 +106,18 @@ const ViewAttendance = () => {
                         setEditIndex(index);
                         setEditData({
                           eventid: item.Eid,
-                          alumni_name: item.alumni_name,
-                          deptname: item.deptname,
+                          alumni_id: item.Alumni_id,
+                          deptid: item.Did,
                           status: item.status,
                         });
                       }}
-                      style={{ background: 'blue', color: 'white' }}
+                      style={{ backgroundColor: 'blue', color: 'white', marginRight: '5px' }}
                     >
                       Edit
                     </button>
                     <button
-                      onClick={() => deleteAttendance(item.Eid)} // Using Eid as the unique ID
-                      style={{ background: 'red', color: 'white' }}
+                      onClick={() => deleteAttendance(item.fid)}
+                      style={{ backgroundColor: 'red', color: 'white' }}
                     >
                       Delete
                     </button>

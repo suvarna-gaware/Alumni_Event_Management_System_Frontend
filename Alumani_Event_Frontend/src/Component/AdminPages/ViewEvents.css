@@ -1,160 +1,142 @@
 .view-event-container {
   padding: 20px;
-  max-width: 800px;
-  margin: auto;
+  font-family: "Segoe UI", sans-serif;
 }
 
-.edit-section {
-  background-color: #f9f9f9;
-  padding: 16px;
-  margin-bottom: 20px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
+h2, h3 {
+  color: #2c3e50;
 }
 
-.edit-section input {
-  display: block;
-  width: 100%;
-  padding: 8px;
-  margin: 6px 0;
-  font-size: 14px;
-}
-
-.edit-buttons {
+.modern-search-box {
   display: flex;
-  justify-content: flex-end;
-  gap: 10px;
+  align-items: center;
+  background: #f1f1f1;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  max-width: 400px;
 }
 
-.cancel-btn {
-  background-color: #ccc;
-  color: #000;
+.modern-search-icon {
+  color: #555;
+  margin-right: 10px;
+}
+
+.modern-search-input {
+  border: none;
+  background: transparent;
+  width: 100%;
+  font-size: 16px;
+  outline: none;
+}
+
+.tabs {
+  margin-bottom: 10px;
+}
+
+.tab {
+  padding: 10px 20px;
+  margin-right: 10px;
+  border: none;
+  background: #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.tab.active {
+  background: #3498db;
+  color: white;
 }
 
 .event-list {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
 }
 
 .event-card {
-  border: 1px solid #ddd;
-  padding: 16px;
-  border-radius: 6px;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  background: #fff;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.event-card:hover {
+  transform: scale(1.02);
 }
 
 .event-field {
   display: flex;
-  gap: 10px;
-  margin: 5px 0;
+  margin-bottom: 8px;
 }
 
 .event-field label {
-  font-weight: bold;
+  font-weight: 600;
   width: 130px;
+  color: #2c3e50;
+}
+
+.event-field span {
+  flex: 1;
+  color: #34495e;
 }
 
 .event-actions {
   display: flex;
-  justify-content: flex-end;
-  gap: 10px;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.edit-button,
+.delete-button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.edit-button {
+  background-color: #f1c40f;
+  color: #fff;
+}
+
+.delete-button {
+  background-color: #e74c3c;
+  color: #fff;
+}
+
+.edit-section {
+  background: #fafafa;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.edit-section input {
+  display: block;
+  margin: 8px 0;
+  padding: 10px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.edit-buttons {
   margin-top: 10px;
 }
 
-.edit-button, .delete-button {
-  padding: 6px 10px;
-  cursor: pointer;
+.cancel-btn {
+  background-color: #95a5a6;
+  color: #fff;
+  margin-left: 10px;
+  padding: 8px 16px;
   border: none;
   border-radius: 6px;
-  transition: background-color 0.2s ease-in-out;
-}
-
-
-.edit-button {
-  background-color: #28a745;  
-  color: #fff;
-}
-
-.edit-button:hover {
-  background-color: #218838;  
-}
-
-
-.delete-button {
-  background-color: #dc3545;  
-  color: #fff;
-}
-
-.delete-button:hover {
-  background-color: #c82333;  
-}
-
-
-.modern-search-wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  align-items: center;
-  margin-bottom: 30px;
-}
-
-.modern-search-box {
-  position: relative;
-  flex: 1;
-  max-width: 600px;
-}
-
-.modern-search-icon {
-  position: absolute;
-  top: 50%;
-  left: 14px;
-  transform: translateY(-50%);
-  font-size: 18px;
-  color: #888;
-}
-
-.modern-search-input {
-  width: 100%;
-  padding: 12px 16px 12px 42px;
-  font-size: 16px;
-  border: 2px solid #ddd;
-  border-radius: 8px;
-  transition: all 0.2s ease-in-out;
-  outline: none;
-}
-
-.modern-search-input:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
-}
-
-.modern-search-btn,
-.modern-reset-btn {
-  padding: 10px 16px;
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 14px;
   cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
-}
-
-.modern-search-btn {
-  background-color: #007bff;
-  color: #fff;
-}
-
-.modern-search-btn:hover {
-  background-color: #0056b3;
-}
-
-.modern-reset-btn {
-  background-color: #6c757d;
-  color: #fff;
-}
-
-.modern-reset-btn:hover {
-  background-color: #5a6268;
 }

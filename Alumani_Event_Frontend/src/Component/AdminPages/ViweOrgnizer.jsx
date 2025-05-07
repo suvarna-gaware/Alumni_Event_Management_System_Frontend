@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { FaEdit, FaTrash, FaSearch } from "react-icons/fa";
+import Swal from "sweetalert2"; // Import SweetAlert2
 import "./ViewOrg.css";
 
 function ViewOrganization() {
@@ -67,13 +68,24 @@ function ViewOrganization() {
   };
 
   const deleteOrganization = async (orgid) => {
-    if (window.confirm("Are you sure you want to delete this organization?")) {
+    // Use SweetAlert2 for confirmation dialog
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    });
+
+    if (result.isConfirmed) {
       try {
         const res = await fetch(`http://localhost:8766/deleteOrg/${orgid}`, {
           method: "DELETE",
         });
         if (res.ok) {
-          alert("Organization deleted successfully!");
+          Swal.fire("Deleted!", "Organization has been deleted.", "success");
           fetchAllOrganizations();
           if (updateForm.orgid === orgid) {
             setUpdateForm({
@@ -85,11 +97,11 @@ function ViewOrganization() {
             });
           }
         } else {
-          alert("Failed to delete organization.");
+          Swal.fire("Error!", "Failed to delete organization.", "error");
         }
       } catch (err) {
         console.error("Error deleting organization:", err);
-        alert("Error deleting organization.");
+        Swal.fire("Error!", "Error deleting organization.", "error");
       }
     }
   };
@@ -119,7 +131,7 @@ function ViewOrganization() {
       const resultText = await res.text();
 
       if (res.ok) {
-        alert(resultText);
+        Swal.fire("Success!", resultText, "success");
         fetchAllOrganizations();
         setUpdateForm({
           orgid: "",
@@ -129,11 +141,11 @@ function ViewOrganization() {
           orgcontact: "",
         });
       } else {
-        alert("Failed to update organization.");
+        Swal.fire("Error!", "Failed to update organization.", "error");
       }
     } catch (error) {
       console.error("Error during update:", error);
-      alert("Error updating organization.");
+      Swal.fire("Error!", "Error updating organization.", "error");
     }
   };
 
@@ -160,7 +172,6 @@ function ViewOrganization() {
       </form>
 
       <div className="organization-list">
-        <h2>All Organizations</h2>
         <table>
           <thead>
             <tr>

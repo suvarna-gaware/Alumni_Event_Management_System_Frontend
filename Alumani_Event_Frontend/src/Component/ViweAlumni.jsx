@@ -1,22 +1,13 @@
 import { useState, useEffect } from "react";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaSearch, FaEdit, FaTrashAlt } from "react-icons/fa";
+import Swal from "sweetalert2";
 import "./ViewAlumni.css";
 
 function ViewAlumni() {
   const [alumni, setAlumni] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [updateForm, setUpdateForm] = useState({
-    alumniid: "",
-    deptid: "",
-    name: "",
-    email: "",
-    contact: "",
-    address: "",
-    gender: "",
-    year: "",
-    status: "",
-  });
+  const [editAlumni, setEditAlumni] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -32,7 +23,6 @@ function ViewAlumni() {
         handleSearchByName(searchQuery.trim());
       }
     }, 400);
-
     return () => clearTimeout(delayDebounce);
   }, [searchQuery]);
 
@@ -71,87 +61,65 @@ function ViewAlumni() {
     }
   };
 
-  const deleteAlumni = async (alumniid) => {
-    if (window.confirm("Are you sure you want to delete this alumni?")) {
+  const handleDelete = async (alumniid) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "Do you want to delete this alumni record?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    });
+
+    if (result.isConfirmed) {
       try {
         const res = await fetch(`http://localhost:8766/deleteAlumni/${alumniid}`, {
           method: "DELETE",
         });
         if (res.ok) {
-          alert("Alumni deleted successfully!");
+          Swal.fire({
+            icon: "success",
+            title: "Deleted!",
+            text: "Alumni deleted successfully.",
+          });
           fetchAllAlumni();
-          if (updateForm.alumniid === alumniid) {
-            setUpdateForm({
-              alumniid: "",
-              deptid: "",
-              name: "",
-              email: "",
-              contact: "",
-              address: "",
-              gender: "",
-              year: "",
-              status: "",
-            });
-          }
         } else {
-          alert("Failed to delete alumni.");
+          Swal.fire({
+            icon: "error",
+            title: "Failed",
+            text: "Failed to delete alumni.",
+          });
         }
       } catch (err) {
-        console.error("Error deleting alumni:", err);
-        alert("Error deleting alumni.");
-      }
-    }
-  };
-
-  const handleUpdateChange = (e) => {
-    setUpdateForm({ ...updateForm, [e.target.name]: e.target.value });
-  };
-
-  const handleUpdateSubmit = async (e) => {
-    e.preventDefault();
-
-    const updatedData = {
-      ...updateForm,
-      alumniid: Number(updateForm.alumniid),
-      deptid: Number(updateForm.deptid),
-    };
-
-    console.log("Sending update request with data:", updatedData);
-
-    try {
-      const res = await fetch("http://localhost:8766/updateAlumni", {
-        method: "PUT", // ✅ CHANGED FROM POST TO PUT
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedData),
-      });
-
-      const resultText = await res.text(); // since backend returns a plain string
-
-      if (res.ok) {
-        console.log(`✅ Alumni with ID ${updatedData.alumniid} updated successfully!`);
-        alert(resultText); // shows message from backend
-        fetchAllAlumni();
-        setUpdateForm({
-          alumniid: "",
-          deptid: "",
-          name: "",
-          email: "",
-          contact: "",
-          address: "",
-          gender: "",
-          year: "",
-          status: "",
+        console.error("Delete error:", err);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Error deleting alumni.",
         });
-      } else {
-        console.error("❌ Update failed:", resultText);
-        alert("Failed to update alumni.");
       }
-    } catch (error) {
-      console.error("❌ Error during update:", error);
-      alert("Error updating alumni.");
     }
+  };
+
+  const handleUpdate = async () => {
+    try {
+      const res = await fetch(`http://localhost:8766/updateAlumni`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(editAlumni),
+      });
+      const msg = await res.text();
+      Swal.fire("Updated!", msg, "success");
+      setEditAlumni(null);
+      fetchAllAlumni();
+    } catch (err) {
+      console.error("Update error:", err);
+      Swal.fire("Error!", "There was an error updating the alumni.", "error");
+    }
+  };
+
+  const handleChange = (e) => {
+    setEditAlumni({ ...editAlumni, [e.target.name]: e.target.value });
   };
 
   const getDepartmentName = (deptid) => {
@@ -161,164 +129,96 @@ function ViewAlumni() {
 
   return (
     <div className="view-alumni-container">
-      <h1>View Alumni</h1>
+      <h1>Manage Alumni</h1>
 
-      <form onSubmit={(e) => e.preventDefault()} className="search-form">
-        <div className="search-input-wrapper">
-          <span className="search-icon">🔍</span>
-          <input
-            type="text"
-            placeholder="Search by Name..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
+      <div className="modern-search-box">
+        <FaSearch className="modern-search-icon" />
+        <input
+          type="text"
+          className="modern-search-input"
+          placeholder="Search by Alumni Name..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+      </div>
+
+      {editAlumni && (
+        <div className="edit-section">
+          <h4>Edit Alumni (ID: {editAlumni.alumniid})</h4>
+          <input name="name" value={editAlumni.name} onChange={handleChange} placeholder="Name" />
+          <input name="email" value={editAlumni.email} onChange={handleChange} placeholder="Email" type="email" />
+          <input name="contact" value={editAlumni.contact} onChange={handleChange} placeholder="Contact" />
+          <input name="address" value={editAlumni.address} onChange={handleChange} placeholder="Address" />
+          <select name="deptid" value={editAlumni.deptid} onChange={handleChange}>
+            <option value="">Select Department</option>
+            {departments.map((dept) => (
+              <option key={dept.deptid} value={dept.deptid}>{dept.deptname}</option>
+            ))}
+          </select>
+          <select name="gender" value={editAlumni.gender} onChange={handleChange}>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+          <input name="year" value={editAlumni.year} onChange={handleChange} placeholder="Year" type="number" />
+          <select name="status" value={editAlumni.status} onChange={handleChange}>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+          <div className="edit-buttons">
+            <button onClick={handleUpdate}>Update</button>
+            <button className="cancel-btn" onClick={() => setEditAlumni(null)}>Cancel</button>
+          </div>
         </div>
-      </form>
+      )}
 
-      <div className="alumni-list">
-        <h2>All Alumni</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Alumni ID</th>
-              <th>Name</th>
-              <th>Department</th>
-              <th>Passout Year</th>
-              <th>Email</th>
-              <th>Contact</th>
-              <th>Gender</th>
-              <th>Status</th>
-              <th>Address</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {loading ? (
+      <div className="alumni-table-container">
+        {loading ? (
+          <p>Loading...</p>
+        ) : alumni.length > 0 ? (
+          <table className="alumni-table">
+            <thead>
               <tr>
-                <td colSpan="10">Loading...</td>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Contact</th>
+                <th>Department</th>
+                <th>Gender</th>
+                <th>Address</th>
+                <th>Year</th>
+                <th>Status</th>
+                <th>Actions</th>
               </tr>
-            ) : (
-              alumni.map((alum) => (
-                <tr key={alum.alumniid}>
-                  <td>{alum.alumniid}</td>
-                  <td>{alum.name}</td>
-                  <td>{getDepartmentName(alum.deptid)}</td>
-                  <td>{alum.year}</td>
-                  <td>{alum.email}</td>
-                  <td>{alum.contact}</td>
-                  <td>{alum.gender}</td>
-                  <td>{alum.status}</td>
-                  <td>{alum.address}</td>
+            </thead>
+            <tbody>
+              {alumni.map((a) => (
+                <tr key={a.alumniid}>
+                  <td>{a.alumniid}</td>
+                  <td>{a.name}</td>
+                  <td>{a.email}</td>
+                  <td>{a.contact}</td>
+                  <td>{getDepartmentName(a.deptid)}</td>
+                  <td>{a.gender}</td>
+                  <td>{a.address}</td>
+                  <td>{a.year}</td>
+                  <td>{a.status}</td>
                   <td>
-                    <button
-                      onClick={() => setUpdateForm({ ...alum })}
-                      title="Update Alumni"
-                      className="icon-button"
-                    >
+                    <button className="edit-button" onClick={() => setEditAlumni(a)}>
                       <FaEdit />
                     </button>
-                    <button
-                      onClick={() => deleteAlumni(alum.alumniid)}
-                      title="Delete Alumni"
-                      className="icon-button"
-                    >
-                      <FaTrash />
+                    <button className="delete-button" onClick={() => handleDelete(a.alumniid)}>
+                      <FaTrashAlt />
                     </button>
                   </td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
-
-      {updateForm.alumniid && (
-        <div className="update-form">
-          <h2>Update Alumni</h2>
-          <form onSubmit={handleUpdateSubmit}>
-            <select
-              name="deptid"
-              value={updateForm.deptid}
-              onChange={handleUpdateChange}
-              required
-            >
-              <option value="">Select Department</option>
-              {departments.map((dept) => (
-                <option key={dept.deptid} value={dept.deptid}>
-                  {dept.deptname}
-                </option>
               ))}
-            </select>
-
-            <input
-              type="text"
-              name="name"
-              placeholder="Name"
-              value={updateForm.name}
-              onChange={handleUpdateChange}
-              required
-            />
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={updateForm.email}
-              onChange={handleUpdateChange}
-              required
-            />
-            <input
-              type="text"
-              name="contact"
-              placeholder="Contact"
-              value={updateForm.contact}
-              onChange={handleUpdateChange}
-              required
-            />
-            <input
-              type="text"
-              name="address"
-              placeholder="Address"
-              value={updateForm.address}
-              onChange={handleUpdateChange}
-              required
-            />
-            <select
-              name="gender"
-              value={updateForm.gender}
-              onChange={handleUpdateChange}
-              required
-            >
-              <option value="">Select Gender</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Other">Other</option>
-            </select>
-            <input
-              type="number"
-              name="year"
-              placeholder="Passout Year"
-              value={updateForm.year}
-              onChange={handleUpdateChange}
-              required
-            />
-            <select
-              name="status"
-              value={updateForm.status}
-              onChange={handleUpdateChange}
-              required
-            >
-              <option value="">Select Status</option>
-              <option value="Yes">Yes</option>
-              <option value="No">No</option>
-            </select>
-
-            <button type="submit">Update Alumni</button>
-            <button type="button" onClick={() => setUpdateForm({ alumniid: "" })}>
-              Cancel
-            </button>
-          </form>
-        </div>
-      )}
+            </tbody>
+          </table>
+        ) : (
+          <p>No alumni records found.</p>
+        )}
+      </div>
     </div>
   );
 }

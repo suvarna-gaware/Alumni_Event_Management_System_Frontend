@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './AdminDashboard.css';
+ import "./AdminDashboard.css";
+
 import {
   FaUserGraduate,
   FaCalendarAlt,
@@ -8,7 +9,6 @@ import {
   FaBuilding,
   FaCommentDots,
   FaClipboardCheck,
-  FaSignOutAlt,
   FaChevronDown,
   FaChevronRight,
   FaUserShield
@@ -25,9 +25,9 @@ import ViewEvents from './AdminPages/ViewEvent';
 import ViewAlumni from './ViweAlumni';
 import ViewAttendance from './AdminPages/ViweAttendance';
 import ViewOrganization from './AdminPages/ViweOrgnizer';
+import Logout from './AdminPages/Logout';
 
 function AdminDashboard() {
-  const navigate = useNavigate();
   const [openSection, setOpenSection] = useState(null);
   const [selected, setSelected] = useState({ section: null, action: null });
 
@@ -39,79 +39,69 @@ function AdminDashboard() {
     setSelected({ section, action });
   };
 
-  const handleLogout = () => {
-    navigate('/adminlogin');
-  };
-
   const renderContent = () => {
     const { section, action } = selected;
-
     if (!section || !action) {
       return <p className="placeholder-text">Please select a section and action from the sidebar.</p>;
     }
 
     switch (section) {
       case 'alumni':
-        return action === 'add' ? <AlumniForm /> :<ViewAlumni/>;
+        return action === 'add' ? <AlumniForm/> : <ViewAlumni/>;
       case 'department':
-        return action === 'add' ? <DepartmentForm /> : <ViweDep />;
+        return action === 'add' ? <DepartmentForm /> : <ViweDep/>;
       case 'organization':
-        return action === 'add' ? <Organization /> : <ViewOrganization/> ;
+        return action === 'add' ? <Organization /> : <ViewOrganization />;
       case 'events':
         return action === 'add' ? <Event /> : <ViewEvents />;
       case 'attendance':
-        return action === 'add' ? <EventAttendance /> : <ViewAttendance/>;
+        return action === 'add' ? <EventAttendance/> : <ViewAttendance/>;
       case 'feedback':
-        return <Feedback />; // Only View for feedback
+        return <Feedback />;
       default:
         return <p>Invalid selection.</p>;
     }
   };
 
-  // Sidebar sections in new order
   const sections = [
     { key: 'alumni', label: 'Alumni', icon: <FaUserGraduate />, allowAdd: true },
     { key: 'department', label: 'Department', icon: <FaBuilding />, allowAdd: true },
     { key: 'organization', label: 'Organizer', icon: <FaUsers />, allowAdd: true },
     { key: 'events', label: 'Events', icon: <FaCalendarAlt />, allowAdd: true },
     { key: 'attendance', label: 'Event Attendance', icon: <FaClipboardCheck />, allowAdd: true },
-    { key: 'feedback', label: 'Feedback', icon: <FaCommentDots />, allowAdd: false } // Feedback only view
+    { key: 'feedback', label: 'Feedback', icon: <FaCommentDots />, allowAdd: false }
   ];
 
   return (
-    <div className="dashboard-container">
-      <div className="sidebar">
-        <h2 className="admin-panel-title">
-          <FaUserShield style={{ marginRight: '8px' }} />
-          Admin Panel
-        </h2>
-        <hr />
-
-        {sections.map(({ key, label, icon, allowAdd }) => (
-          <div key={key} className="menu-section">
-            <div className="section-title" onClick={() => toggleSection(key)}>
-              <span className="icon">{icon}</span>
-              <span className="label">{label}</span>
-              <span className="arrow">
-                {openSection === key ? <FaChevronDown /> : <FaChevronRight />}
-              </span>
-            </div>
-            {openSection === key && (
-              <div className="dropdown">
-                {allowAdd && <p onClick={() => handleSelect(key, 'add')}>➕ Add</p>}
-                <p onClick={() => handleSelect(key, 'view')}>👁️ View</p>
+    <>
+      <Logout />
+      <div className="dashboard-container">
+        <div className="sidebar mt-">
+          <h2 className="admin-panel-title">
+            <FaUserShield className="me-2" />
+            Admin Panel
+          </h2>
+          <hr />
+          {sections.map(({ key, label, icon, allowAdd }) => (
+            <div key={key} className="menu-section">
+              <div className="section-title" onClick={() => toggleSection(key)}>
+                <span className="icon">{icon}</span>
+                <span className="label">{label}</span>
+                <span className="arrow">{openSection === key ? <FaChevronDown /> : <FaChevronRight />}</span>
               </div>
-            )}
-          </div>
-        ))}
+              {openSection === key && (
+                <div className="dropdown">
+                  {allowAdd && <p onClick={() => handleSelect(key, 'add')}>➕ Add</p>}
+                  <p onClick={() => handleSelect(key, 'view')}>👁️ View</p>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
 
-        <button className="logout-button" onClick={handleLogout}>
-          <FaSignOutAlt /> Logout
-        </button>
+        <div className="main-content">{renderContent()}</div>
       </div>
-
-      <div className="main-content">{renderContent()}</div>
-    </div>
+    </>
   );
 }
 
