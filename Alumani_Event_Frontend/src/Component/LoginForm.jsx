@@ -31,40 +31,6 @@ function LoginForm() {
       }
     }
     
-    /*
-======================================================================
-    else if (role === 'alumni') {
-      try {
-        console.log(loginData.username+"  "+loginData.password);
-        const res = await fetch('http://localhost:8766/viewAllAlumni');
-        if (!res.ok) throw new Error('Failed to fetch alumni data');
-
-        const alumniList = await res.json();
-        console.log("Alumni List:", alumniList);
-
-        const matchedAlumni = alumniList.find(
-          (alumni) =>
-            alumni.email.trim().toLowerCase() === username.trim().toLowerCase() &&
-            alumni.contact.trim() === password.trim()
-        );
-
-        if (matchedAlumni) {
-          console.log("Matched Alumni:", matchedAlumni);
-          setResponse({ status: 'success', message: 'Alumni login successful' });
-          navigate('/alumni-dashboard', { state: { alumni: matchedAlumni } });
-        } else {
-          setResponse({ status: 'error', message: 'Invalid Alumni credentials' });
-        }
-      } catch (error) {
-        console.error("Error fetching alumni data:", error);
-        setResponse({ status: 'error', message: 'Server error. Please try again.' });
-      }
-    }
-    ==========================================================================
-*/    
-    
-
-
 
 else if (role === 'alumni') {
   try {
@@ -85,6 +51,7 @@ else if (role === 'alumni') {
       setResponse({ status: 'success', message: 'Alumni login successful' });
       navigate('/alumni-dashboard', { state: { alumni: matchedAlumni } });
       
+    //  navigate('/alumni-dashboard', { state: { alumni: matchedAlumni } });
     
       setResponse({ status: 'error', message: 'Invalid Alumni credentials' });
     }
@@ -93,6 +60,7 @@ else if (role === 'alumni') {
     setResponse({ status: 'error', message: 'Server error. Please try again.' });
   }
 }
+
 
 
 //=============================================================================

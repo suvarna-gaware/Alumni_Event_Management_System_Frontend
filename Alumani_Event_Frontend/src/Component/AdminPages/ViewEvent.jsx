@@ -114,7 +114,7 @@ function ViewEvent() {
 
   const renderEventCard = (event) => (
     <div key={event.eventid} className="event-card">
-      {/* Remove the event ID display */}
+      
       <div className="event-field"><label>Event Name:</label><span>{event.eventname}</span></div>
       <div className="event-field"><label>Date:</label><span>{event.eventdate}</span></div>
       <div className="event-field"><label>Time:</label><span>{event.eventtime}</span></div>

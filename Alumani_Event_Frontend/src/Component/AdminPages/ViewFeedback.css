@@ -1,0 +1,40 @@
+.feedback-container {
+  padding: 30px;
+  font-family: Arial, sans-serif;
+  background-color: #f4f6f8;
+}
+
+.feedback-container h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.feedback-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.feedback-table th,
+.feedback-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+.feedback-table th {
+  background-color: #2f4f4f;
+  color: white;
+  font-weight: 600;
+}
+
+.feedback-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+.feedback-table td {
+  color: #333;
+}

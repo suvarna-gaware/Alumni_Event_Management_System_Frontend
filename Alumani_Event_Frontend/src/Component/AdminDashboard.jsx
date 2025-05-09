@@ -18,7 +18,7 @@ import AlumniForm from './AdminPages/Alumniform';
 import DepartmentForm from './AdminPages/Departmentfrom';
 import Event from './AdminPages/Event';
 import Organization from './AdminPages/Orgnization';
-import Feedback from './AdminPages/Feedback';
+import Feedback from './AdminPages/AddFeedbackForm';
 import EventAttendance from './AdminPages/Eventnattendece';
 import ViweDep from './AdminPages/ViweDep';
 import ViewEvents from './AdminPages/ViewEvent';
@@ -26,6 +26,7 @@ import ViewAlumni from './ViweAlumni';
 import ViewAttendance from './AdminPages/ViweAttendance';
 import ViewOrganization from './AdminPages/ViweOrgnizer';
 import Logout from './AdminPages/Logout';
+import ViewFeedback from './AdminPages/ViewFeedback';
 
 function AdminDashboard() {
   const [openSection, setOpenSection] = useState(null);
@@ -57,7 +58,7 @@ function AdminDashboard() {
       case 'attendance':
         return action === 'add' ? <EventAttendance/> : <ViewAttendance/>;
       case 'feedback':
-        return <Feedback />;
+        return <ViewFeedback/>;
       default:
         return <p>Invalid selection.</p>;
     }
