@@ -16,6 +16,7 @@ import {
 import StudentProfile from './StudentProfile';
 import Logout from './AdminPages/Logout';
 import UpcomingEvent from './AdminPages/UpcomingEvent';
+import AddFeedbackForm from './AdminPages/AddFeedbackForm';
 
 // // Import the components for View and Add Feedback
 // import ViewFeedback from './StudentPages/ViewFeedback';
@@ -48,7 +49,7 @@ function StudentDashboard() {
       case 'events':
         return <UpcomingEvent />;
       case 'feedback':
-        return action === 'add' ? <AddFeedback /> : <ViewFeedback />;
+        return action === 'add' ? <AddFeedbackForm /> : <ViewFeedback />;
       default:
         return <p>Invalid selection.</p>;
     }

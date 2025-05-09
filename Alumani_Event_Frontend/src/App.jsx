@@ -11,7 +11,7 @@ import Footer from './Component/Footer';
 import LoginForm from './Component/LoginForm';
 
 
-// import AlumniDashboard from './Component/AlumniDashboard'; 
+
 import StudentDashbord from './Component/StudentDashBord';
 
 function AppContent() {

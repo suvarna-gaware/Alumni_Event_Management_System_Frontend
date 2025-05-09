@@ -13,7 +13,7 @@ function OrganizationForm() {
 
   const [departments, setDepartments] = useState([]);
 
-  // Fetch departments on mount
+  
   useEffect(() => {
     const fetchDepartments = async () => {
       try {
@@ -27,12 +27,12 @@ function OrganizationForm() {
     fetchDepartments();
   }, []);
 
-  // Form input handler
+  
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // Validate form
+  
   const validateForm = () => {
     if (!form.deptid) {
       Swal.fire("Validation Error", "Please select a department.", "warning");
@@ -53,7 +53,7 @@ function OrganizationForm() {
     return true;
   };
 
-  // Submit handler
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -81,7 +81,7 @@ function OrganizationForm() {
 
   return (
     <form className="organization-form" onSubmit={handleSubmit}>
-      <h2>Add Organization</h2>
+      <h2>Add Organizer</h2>
 
       <div className="form-group">
         <label htmlFor="deptid">Department</label>
@@ -102,7 +102,7 @@ function OrganizationForm() {
       </div>
 
       <div className="form-group">
-        <label>Organization Name</label>
+        <label>Orgnizer Name</label>
         <input
           name="orgname"
           className="form-control"
@@ -136,7 +136,7 @@ function OrganizationForm() {
       </div>
 
       <button type="submit" className="btn-submit">
-        Add Organization
+        Add Orgnizer
       </button>
     </form>
   );
