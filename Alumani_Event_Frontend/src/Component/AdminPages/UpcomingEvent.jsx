@@ -93,7 +93,7 @@ function UpcomingEvent() {
   );
 
   return (
-    <div className="view-event-container">
+    <div className="view-event-container mt-4">
       <h2>📅 Upcoming Events</h2>
 
       <div className="modern-search-box">

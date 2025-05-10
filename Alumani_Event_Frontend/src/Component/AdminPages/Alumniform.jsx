@@ -29,7 +29,7 @@ function AlumniForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Basic frontend validation
+    
     const { name, email, deptid, year, gender, contact, status, address } = form;
     if (!name || !email || !deptid || !year || !gender || !contact || !status || !address) {
       Swal.fire({
@@ -40,7 +40,7 @@ function AlumniForm() {
       return;
     }
 
-    // Contact validation (must be 10 digits)
+    
     if (!/^[0-9]{10}$/.test(contact)) {
       Swal.fire({
         icon: "error",
@@ -50,7 +50,7 @@ function AlumniForm() {
       return;
     }
 
-    // Email validation (basic format)
+    
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       Swal.fire({
         icon: "error",
@@ -60,7 +60,7 @@ function AlumniForm() {
       return;
     }
 
-    // Confirmation popup before submitting the form
+    
     const confirmResult = await Swal.fire({
       title: "Are you sure?",
       text: "Do you want to create this alumni record?",
@@ -71,7 +71,7 @@ function AlumniForm() {
     });
 
     if (!confirmResult.isConfirmed) {
-      return; // Exit if the user cancels
+      return; 
     }
 
     try {
@@ -116,7 +116,6 @@ function AlumniForm() {
     }
   };
 
-  // Generate years from current year down to 1980
   const passoutYears = Array.from(
     { length: new Date().getFullYear() - 1980 + 1 },
     (_, i) => new Date().getFullYear() - i

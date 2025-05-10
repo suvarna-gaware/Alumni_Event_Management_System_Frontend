@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
-import "./FeedbackForm.css"; // Optional: for styling
+import "./FeedbackForm.css"; 
 
 function FeedbackForm() {
   const location = useLocation();
@@ -12,10 +12,11 @@ function FeedbackForm() {
   const [feedbackMsg, setFeedbackMsg] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Load alumniId from state or localStorage
+  
   useEffect(() => {
     const localData = JSON.parse(localStorage.getItem("alumniData"));
     const id = initialAlumni?.alumniid || localData?.alumniid;
+    console.log("=== "+id)
     if (id) {
       setAlumniId(id);
     } else {
@@ -30,9 +31,11 @@ function FeedbackForm() {
     const fetchEvents = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`http://localhost:8766/events/${alumniId}`);
+        const res = await fetch(`http://localhost:8766/feedback/events/byAlumniId/${alumniId}`);
+        console.log("Fetched :",res);
         if (!res.ok) throw new Error("Failed to fetch events.");
         const data = await res.json();
+        console.log("Fetched events:", data);
         setEvents(data);
       } catch (err) {
         console.error("Fetch error:", err);
@@ -58,7 +61,7 @@ function FeedbackForm() {
     };
 
     try {
-      const res = await fetch("http://localhost:8766/createFeedback", {
+      const res = await fetch("http://localhost:8766/feedback/createFeedback", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -89,9 +92,9 @@ function FeedbackForm() {
           >
             <option value="">-- Select an event --</option>
             {events.map((event) => (
-              <option key={event.eventid} value={event.eventid}>
-                {event.eventname} ({event.eventdate})
-              </option>
+             <option key={event.eventid} value={event.eventid}>
+             {(event.eventname || "Unnamed Event") + " - " + (event.eventdate || " ")}
+           </option>
             ))}
           </select>
 
