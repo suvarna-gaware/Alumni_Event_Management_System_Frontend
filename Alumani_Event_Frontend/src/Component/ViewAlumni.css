@@ -1,163 +1,248 @@
+/* ViewAlumni.css */
 
 .view-alumni-container {
-  padding: 30px;
-  font-family: "Segoe UI", sans-serif;
-  background-color: #f4f7fa;
-  min-height: 100vh;
+  max-width: 100%;
+  margin: 30px auto;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
 }
 
-
-.view-alumni-container h1 {
-  font-size: 28px;
-  color: #2c3e50;
-  margin-bottom: 20px;
+h1 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #333;
 }
 
+/* Search Box */
 
 .modern-search-box {
-  display: flex;
-  align-items: center;
-  background: #fff;
-  padding: 8px 12px;
-  width: 350px;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  margin-bottom: 20px;
+  position: relative;
+  max-width: 400px;
+  margin: 0 auto 30px auto;
 }
 
 .modern-search-icon {
-  margin-right: 10px;
-  color: #2c3e50;
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  color: #888;
+  font-size: 18px;
 }
 
 .modern-search-input {
-  border: none;
-  outline: none;
-  flex-grow: 1;
+  width: 100%;
+  padding: 10px 12px 10px 38px;
   font-size: 16px;
+  border-radius: 25px;
+  border: 1.8px solid #ccc;
+  outline: none;
+  transition: border-color 0.3s ease;
 }
 
+.modern-search-input:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 6px #4a90e2aa;
+}
+
+/* Edit Section */
 
 .edit-section {
-  background: #ffffff;
-  border: 1px solid #e0e0e0;
+  background: #fff;
   padding: 20px;
-  border-radius: 10px;
-  margin-bottom: 25px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  margin-bottom: 30px;
+  border-radius: 8px;
+  box-shadow: 0 1px 6px rgb(0 0 0 / 0.1);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .edit-section h4 {
   margin-bottom: 15px;
-  color: #333;
+  color: #444;
 }
 
 .edit-section input,
 .edit-section select {
-  padding: 10px;
-  margin-bottom: 12px;
   width: 100%;
-  max-width: 400px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  padding: 8px 10px;
+  margin-bottom: 12px;
   font-size: 15px;
-  transition: border-color 0.3s;
+  border: 1.5px solid #ccc;
+  border-radius: 5px;
+  transition: border-color 0.3s ease;
 }
 
 .edit-section input:focus,
 .edit-section select:focus {
-  border-color: #3498db;
+  border-color: #4a90e2;
+  box-shadow: 0 0 5px #4a90e2aa;
   outline: none;
 }
 
 .edit-buttons {
-  margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
 }
 
 .edit-buttons button {
   padding: 8px 16px;
-  margin-right: 10px;
-  font-size: 14px;
+  font-size: 15px;
   border: none;
-  border-radius: 5px;
+  border-radius: 25px;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background-color 0.3s ease;
 }
 
 .edit-buttons button:hover {
   opacity: 0.9;
 }
 
+.edit-buttons button:first-child {
+  background-color: #4a90e2;
+  color: white;
+}
+
 .edit-buttons .cancel-btn {
-  background-color: #7f8c8d;
-  color: white;
+  background-color: #ddd;
+  color: #444;
 }
 
-.edit-buttons button:not(.cancel-btn) {
-  background-color: #27ae60;
-  color: white;
-}
-
+/* Alumni Table */
 
 .alumni-table-container {
   overflow-x: auto;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
 }
-
 
 .alumni-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 15px;
-  min-width: 900px;
+  font-size: 14.5px;
 }
 
-.alumni-table th,
-.alumni-table td {
-  padding: 14px 12px;
-  text-align: left;
-}
-
-.alumni-table th {
+.alumni-table thead {
+  /* background-color: #4a90e2;
+  color: white; */
   background-color: #2c3e50;
   color: white;
 }
 
-.alumni-table tbody tr:nth-child(even) {
-  background-color: #f9f9f9;
+.alumni-table th,
+.alumni-table td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  vertical-align: middle;
 }
 
 .alumni-table tbody tr:hover {
-  background-color: #f1f1f1;
+  background-color: #f0f7ff;
+}
+
+.alumni-table td:last-child {
+  display: flex;
+  gap: 8px;
 }
 
 /* Action Buttons */
+
 .edit-button,
 .delete-button {
-  padding: 6px 10px;
-  margin-right: 5px;
+  background: none;
   border: none;
-  border-radius: 4px;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  font-size: 16px;
+  padding: 4px 6px;
+  border-radius: 4px;
+  transition: background-color 0.25s ease;
 }
 
 .edit-button {
-  background-color: #2980b9;
-  color: white;
+  color: #4a90e2;
 }
 
 .edit-button:hover {
-  background-color: #3498db;
+  background-color: #d0e4ff;
 }
 
 .delete-button {
-  background-color: #c0392b;
-  color: white;
+  color: #e94e4e;
 }
 
 .delete-button:hover {
-  background-color: #e74c3c;
-} 
+  background-color: #f9cccc;
+}
+
+/* Loading and No Data */
+
+.alumni-table-container p {
+  text-align: center;
+  padding: 20px;
+  font-size: 16px;
+  color: #666;
+}
+
+/* Pagination */
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+  gap: 8px;
+  flex-wrap: wrap;
+  user-select: none;
+}
+
+.pagination button {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  font-size: 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+}
+
+.pagination button:hover:not(.active) {
+  background-color: #357abd;
+}
+
+.pagination button:disabled {
+  background-color: #a0c4ff;
+  cursor: default;
+}
+
+.pagination button.active {
+  background-color: #2d5ca2;
+  font-weight: 600;
+  cursor: default;
+}
+
+/* Responsive */
+
+@media (max-width: 720px) {
+  .view-alumni-container {
+    padding: 15px;
+  }
+
+  .edit-section {
+    width: 100%;
+    padding: 15px;
+  }
+
+  .alumni-table th,
+  .alumni-table td {
+    padding: 8px 6px;
+    font-size: 13px;
+  }
+
+  .modern-search-box {
+    max-width: 100%;
+  }
+}

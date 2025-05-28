@@ -1,12 +1,16 @@
 import { useState, useEffect } from "react";
 import "./ViewEvents.css";
 import { FaSearch, FaEdit, FaTrashAlt } from "react-icons/fa";
-import Swal from 'sweetalert2'; 
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+const MySwal = withReactContent(Swal);
 
 function ViewEvent() {
   const [events, setEvents] = useState([]);
   const [upcomingEvents, setUpcomingEvents] = useState([]);
   const [pastEvents, setPastEvents] = useState([]);
+  const [departments, setDepartments] = useState([]);
   const [searchName, setSearchName] = useState("");
   const [editEvent, setEditEvent] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -14,37 +18,25 @@ function ViewEvent() {
 
   useEffect(() => {
     fetchEvents();
+    fetchDepartments();
   }, []);
 
   useEffect(() => {
-    const delayDebounce = setTimeout(() => {
-      if (searchName.trim() === "") {
-        fetchEvents();
-      } else {
-        handleSearchByName(searchName.trim());
-      }
+    const debounce = setTimeout(() => {
+      if (searchName.trim() === "") fetchEvents();
+      else handleSearchByName(searchName.trim());
     }, 400);
-    return () => clearTimeout(delayDebounce);
+    return () => clearTimeout(debounce);
   }, [searchName]);
-
-  const splitEvents = (eventList) => {
-    const today = new Date().toISOString().split("T")[0];
-    const upcoming = eventList.filter((event) => event.eventdate >= today);
-    const past = eventList.filter((event) => event.eventdate < today);
-    setUpcomingEvents(upcoming);
-    setPastEvents(past);
-  };
 
   const fetchEvents = async () => {
     setLoading(true);
     try {
       const res = await fetch("http://localhost:8766/getevents");
-      if (!res.ok) throw new Error("Failed to fetch events");
       const data = await res.json();
       setEvents(data);
       splitEvents(data);
-    } catch (err) {
-      console.error("Fetch error:", err);
+    } catch {
       setEvents([]);
       setUpcomingEvents([]);
       setPastEvents([]);
@@ -53,16 +45,32 @@ function ViewEvent() {
     }
   };
 
+  const fetchDepartments = async () => {
+    try {
+      const res = await fetch("http://localhost:8766/getDepartments");
+      const data = await res.json();
+      setDepartments(data);
+    } catch {
+      setDepartments([]);
+    }
+  };
+
+  const splitEvents = (data) => {
+    const today = new Date().toISOString().split("T")[0];
+    const upcoming = data.filter((e) => e.eventdate >= today);
+    const past = data.filter((e) => e.eventdate < today);
+    setUpcomingEvents(upcoming);
+    setPastEvents(past);
+  };
+
   const handleSearchByName = async (name) => {
     try {
       const res = await fetch(`http://localhost:8766/searchEventByName/${name}`);
-      if (!res.ok) throw new Error("Search fetch failed");
       const data = await res.json();
-      const filtered = Array.isArray(data) ? data : [data];
-      setEvents(filtered);
-      splitEvents(filtered);
-    } catch (err) {
-      console.error("Search error:", err);
+      const results = Array.isArray(data) ? data : [data];
+      setEvents(results);
+      splitEvents(results);
+    } catch {
       setEvents([]);
       setUpcomingEvents([]);
       setPastEvents([]);
@@ -70,17 +78,15 @@ function ViewEvent() {
   };
 
   const handleDelete = async (id) => {
-    // Using SweetAlert for confirmation before deletion
-    const result = await Swal.fire({
+    const confirm = await Swal.fire({
       title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      text: "This event will be deleted permanently.",
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "Cancel",
     });
 
-    if (result.isConfirmed) {
+    if (confirm.isConfirmed) {
       try {
         const res = await fetch(`http://localhost:8766/deleteEvent/${id}`, {
           method: "DELETE",
@@ -88,43 +94,53 @@ function ViewEvent() {
         const msg = await res.text();
         Swal.fire("Deleted!", msg, "success");
         fetchEvents();
-      } catch (err) {
-        console.error("Delete error:", err);
-        Swal.fire("Error!", "There was an error deleting the event.", "error");
+      } catch {
+        Swal.fire("Error!", "Failed to delete event.", "error");
       }
     }
   };
 
   const handleUpdate = async () => {
+    const { eventname, eventdate, eventtime, location, deptid, eventid } =
+      editEvent;
+
+    if (!eventname || !eventdate || !eventtime || !location || !deptid) {
+      Swal.fire("Warning", "Please fill in all fields.", "warning");
+      return;
+    }
+
     try {
-      const res = await fetch(`http://localhost:8766/updateEvent/${editEvent.eventid}`, {
+      const res = await fetch(`http://localhost:8766/updateEvent/${eventid}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(editEvent),
       });
       const msg = await res.text();
-      Swal.fire("Updated!", msg, "success");
+      Swal.fire("Success", msg, "success");
       setEditEvent(null);
       fetchEvents();
-    } catch (err) {
-      console.error("Update error:", err);
-      Swal.fire("Error!", "There was an error updating the event.", "error");
+    } catch {
+      Swal.fire("Error!", "Failed to update event.", "error");
     }
+  };
+
+  const getDepartmentName = (deptid) => {
+    const dept = departments.find((d) => d.did === deptid || d.Did === deptid);
+    return dept?.dname || dept?.Dname || dept?.deptname || "Unknown";
   };
 
   const renderEventCard = (event) => (
     <div key={event.eventid} className="event-card">
-      
-      <div className="event-field"><label>Event Name:</label><span>{event.eventname}</span></div>
-      <div className="event-field"><label>Date:</label><span>{event.eventdate}</span></div>
-      <div className="event-field"><label>Time:</label><span>{event.eventtime}</span></div>
-      <div className="event-field"><label>Location:</label><span>{event.location}</span></div>
-      <div className="event-field"><label>Department:</label><span>{event.deptname || event.deptid}</span></div>
+      <div><strong>{event.eventname}</strong></div>
+      <p>Date: {event.eventdate}</p>
+      <p>Time: {event.eventtime}</p>
+      <p>Location: {event.location}</p>
+      <p>Department: {getDepartmentName(event.deptid)}</p>
       <div className="event-actions">
-        <button className="edit-button" onClick={() => setEditEvent(event)}>
+        <button onClick={() => setEditEvent(event)} className="edit-button">
           <FaEdit /> Edit
         </button>
-        <button className="delete-button" onClick={() => handleDelete(event.eventid)}>
+        <button onClick={() => handleDelete(event.eventid)} className="delete-button">
           <FaTrashAlt /> Delete
         </button>
       </div>
@@ -135,73 +151,106 @@ function ViewEvent() {
     <div className="view-event-container">
       <h2>Manage Events</h2>
 
-      <div className="modern-search-box">
-        <FaSearch className="modern-search-icon" />
+      {/* Search */}
+      <div className="search-bar">
+        <FaSearch />
         <input
           type="text"
-          className="modern-search-input"
-          placeholder="Search by Event Name..."
           value={searchName}
           onChange={(e) => setSearchName(e.target.value)}
+          placeholder="Search by Event Name..."
         />
       </div>
 
-      {editEvent && (
-        <div className="edit-section">
-          <h4>Edit Event (ID: {editEvent.eventid})</h4>
-          <input
-            value={editEvent.eventname}
-            onChange={(e) => setEditEvent({ ...editEvent, eventname: e.target.value })}
-            placeholder="Event Name"
-          />
-          <input
-            type="date"
-            value={editEvent.eventdate}
-            onChange={(e) => setEditEvent({ ...editEvent, eventdate: e.target.value })}
-          />
-          <input
-            type="time"
-            value={editEvent.eventtime}
-            onChange={(e) => setEditEvent({ ...editEvent, eventtime: e.target.value })}
-          />
-          <input
-            value={editEvent.location}
-            onChange={(e) => setEditEvent({ ...editEvent, location: e.target.value })}
-            placeholder="Location"
-          />
-          <input
-            type="number"
-            value={editEvent.deptid}
-            onChange={(e) => setEditEvent({ ...editEvent, deptid: e.target.value })}
-            placeholder="Department ID"
-          />
-          <div className="edit-buttons">
-            <button onClick={handleUpdate}><FaEdit /> Update</button>
-            <button className="cancel-btn" onClick={() => setEditEvent(null)}>Cancel</button>
-          </div>
-        </div>
-      )}
-
+      {/* Tabs */}
       <div className="tabs">
-        <button className={selectedTab === "upcoming" ? "tab active" : "tab"} onClick={() => setSelectedTab("upcoming")}>
-          Upcoming Events ({upcomingEvents.length})
+        <button
+          className={selectedTab === "upcoming" ? "active" : ""}
+          onClick={() => setSelectedTab("upcoming")}
+        >
+          Upcoming ({upcomingEvents.length})
         </button>
-        <button className={selectedTab === "past" ? "tab active" : "tab"} onClick={() => setSelectedTab("past")}>
-          Past Events ({pastEvents.length})
+        <button
+          className={selectedTab === "past" ? "active" : ""}
+          onClick={() => setSelectedTab("past")}
+        >
+          Past ({pastEvents.length})
         </button>
       </div>
 
-      <h3>{selectedTab === "upcoming" ? "These are Upcoming Events" : "These are Past Events"}</h3>
-
+      {/* Event List */}
       <div className="event-list">
         {loading ? (
           <p>Loading...</p>
         ) : selectedTab === "upcoming" ? (
-          upcomingEvents.length > 0 ? upcomingEvents.map(renderEventCard) : <p>No upcoming events.</p>
+          upcomingEvents.map(renderEventCard)
         ) : (
-          pastEvents.length > 0 ? pastEvents.map(renderEventCard) : <p>No past events.</p>
+          pastEvents.map(renderEventCard)
         )}
       </div>
+
+      {/* Edit Modal */}
+      {editEvent && (
+        <div className="modal-backdrop">
+          <div className="modal">
+            <h3>Edit Event</h3>
+            <input
+              type="text"
+              value={editEvent.eventname}
+              onChange={(e) =>
+                setEditEvent({ ...editEvent, eventname: e.target.value })
+              }
+              placeholder="Event Name"
+            />
+            <input
+              type="date"
+              value={editEvent.eventdate}
+              onChange={(e) =>
+                setEditEvent({ ...editEvent, eventdate: e.target.value })
+              }
+            />
+            <input
+              type="time"
+              value={editEvent.eventtime}
+              onChange={(e) =>
+                setEditEvent({ ...editEvent, eventtime: e.target.value })
+              }
+            />
+            <input
+              type="text"
+              value={editEvent.location}
+              onChange={(e) =>
+                setEditEvent({ ...editEvent, location: e.target.value })
+              }
+              placeholder="Location"
+            />
+            <select
+              value={editEvent.deptid || ""}
+              onChange={(e) =>
+                setEditEvent({
+                  ...editEvent,
+                  deptid: parseInt(e.target.value),
+                })
+              }
+            >
+              <option value="">Select Department</option>
+              {departments.map((d) => (
+                <option key={d.did} value={d.did}>
+                  {d.dname}
+                </option>
+              ))}
+            </select>
+            <div className="modal-buttons">
+              <button className="update-button" onClick={handleUpdate}>
+                Update
+              </button>
+              <button className="cancel-button" onClick={() => setEditEvent(null)}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

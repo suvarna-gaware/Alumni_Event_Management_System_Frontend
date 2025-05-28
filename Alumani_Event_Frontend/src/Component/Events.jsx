@@ -61,7 +61,7 @@ const Events = () => {
   ];
 
   return (
-    <div className="events-container">
+    <div className="events-container"id="event">
       <h2 className="events-title">Upcoming Alumni Events</h2>
 
       <div className="events-grid">

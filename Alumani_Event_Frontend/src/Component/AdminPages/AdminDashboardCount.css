@@ -1,0 +1,32 @@
+/* AdminDashboardCount.css */
+
+.admin-dashboard-container {
+  background-color: #ffffff;
+  border-radius: 1rem; /* rounded-xl */
+  box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.4), 0 4px 6px -2px rgba(99, 102, 241, 0.1);
+  padding: 1.5rem 1.5rem; /* p-6 */
+  max-width: 48rem; /* max-w-3xl = 768px */
+  margin: 1.5rem auto 0 auto; /* mt-6 and centered */
+}
+
+.admin-dashboard-title {
+  font-size: 1.5rem; /* text-2xl */
+  font-weight: 700; /* font-bold */
+  color: #4f46e5; /* indigo-800 */
+  margin-bottom: 1.5rem; /* mb-6 */
+  text-align: center;
+}
+
+/* Optional: style tooltip font in recharts */
+.recharts-tooltip-wrapper {
+  font-family: Arial, sans-serif;
+  font-size: 0.875rem;
+}
+
+/* Responsive tweaks */
+@media (max-width: 640px) {
+  .admin-dashboard-container {
+    padding: 1rem;
+    max-width: 100%;
+  }
+}

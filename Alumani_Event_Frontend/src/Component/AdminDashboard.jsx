@@ -15,7 +15,7 @@ import {
 } from 'react-icons/fa';
 
 import AlumniForm from './AdminPages/Alumniform';
-import DepartmentForm from './AdminPages/Departmentfrom';
+ import DepartmentForm from './AdminPages/Departmentfrom';
 import Event from './AdminPages/Event';
 import Organization from './AdminPages/Orgnization';
 import Feedback from './AdminPages/AddFeedbackForm';
@@ -27,6 +27,7 @@ import ViewAttendance from './AdminPages/ViweAttendance';
 import ViewOrganization from './AdminPages/ViweOrgnizer';
 import Logout from './AdminPages/Logout';
 import ViewFeedback from './AdminPages/ViewFeedback';
+import AdminDashboardCount from './AdminPages/AdminDashboardCount';
 
 function AdminDashboard() {
   const [openSection, setOpenSection] = useState(null);
@@ -43,7 +44,7 @@ function AdminDashboard() {
   const renderContent = () => {
     const { section, action } = selected;
     if (!section || !action) {
-      return <p className="placeholder-text">Please select a section and action from the sidebar.</p>;
+      return <AdminDashboardCount />;
     }
 
     switch (section) {

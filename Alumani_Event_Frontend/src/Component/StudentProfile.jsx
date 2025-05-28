@@ -55,7 +55,7 @@ function StudentProfile() {
   };
 
   return (
-    <div className="student-profile-container">
+    <div className="student-profile-container mt-5">
       <h2>🎓 Alumni Profile</h2>
       {alumniData ? (
         <>

@@ -22,7 +22,7 @@ function ViewFeedback() {
   }, []);
 
   return (
-    <div className="feedback-container">
+    <div className="feedback-container mt-5">
       <h2>📝 Alumni Feedback</h2>
       {loading ? (
         <p>Loading...</p>

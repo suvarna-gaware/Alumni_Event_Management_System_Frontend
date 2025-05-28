@@ -62,5 +62,5 @@ function DepartmentForm() {
     </div>
   );
 }
-
+ 
 export default DepartmentForm;

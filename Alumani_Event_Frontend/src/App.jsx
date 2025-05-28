@@ -13,6 +13,7 @@ import LoginForm from './Component/LoginForm';
 
 
 import StudentDashbord from './Component/StudentDashBord';
+import OrganizationDashboard from './Component/AdminPages/OrgnizerDashboard';
 
 function AppContent() {
   const location = useLocation();
@@ -44,6 +45,8 @@ function AppContent() {
         
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/alumni-dashboard" element={<StudentDashbord/>} /> 
+        <Route path="/organization-dashboard" element={<OrganizationDashboard />} />
+
         
       </Routes>
     </>
