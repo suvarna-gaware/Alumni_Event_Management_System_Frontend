@@ -1,142 +1,150 @@
+/* ViewEvents.css */
 .view-event-container {
+  max-width: 900px;
+  margin: 0 auto;
   padding: 20px;
-  font-family: "Segoe UI", sans-serif;
-}
-
-h2, h3 {
-  color: #2c3e50;
-}
-
-.modern-search-box {
-  display: flex;
-  align-items: center;
-  background: #f1f1f1;
-  padding: 10px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  max-width: 400px;
-}
-
-.modern-search-icon {
-  color: #555;
-  margin-right: 10px;
-}
-
-.modern-search-input {
-  border: none;
-  background: transparent;
-  width: 100%;
-  font-size: 16px;
-  outline: none;
-}
-
-.tabs {
-  margin-bottom: 10px;
-}
-
-.tab {
-  padding: 10px 20px;
-  margin-right: 10px;
-  border: none;
-  background: #ddd;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.tab.active {
-  background: #3498db;
-  color: white;
+  font-family: Arial, sans-serif;
 }
 
 .event-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: flex-start;
 }
 
 .event-card {
-  background: #fff;
-  padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s;
-}
-
-.event-card:hover {
-  transform: scale(1.02);
-}
-
-.event-field {
-  display: flex;
-  margin-bottom: 8px;
-}
-
-.event-field label {
-  font-weight: 600;
-  width: 130px;
-  color: #2c3e50;
-}
-
-.event-field span {
-  flex: 1;
-  color: #34495e;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 0 6px rgba(0,0,0,0.1);
+  padding: 15px;
+  width: 48%; /* two cards per row */
+  box-sizing: border-box;
 }
 
 .event-actions {
+  margin-top: 12px;
   display: flex;
-  justify-content: space-between;
-  margin-top: 15px;
+  gap: 10px;
 }
 
-.edit-button,
-.delete-button {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 8px;
+.edit-button, .delete-button {
   cursor: pointer;
-  font-weight: 500;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 14px;
   display: flex;
   align-items: center;
   gap: 6px;
 }
 
 .edit-button {
-  background-color: #f1c40f;
-  color: #fff;
+  background-color: #4CAF50;
+  color: white;
 }
 
 .delete-button {
-  background-color: #e74c3c;
-  color: #fff;
+  background-color: #f44336;
+  color: white;
 }
 
-.edit-section {
-  background: #fafafa;
-  padding: 20px;
+/* Modal backdrop and modal centered */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
   border-radius: 10px;
-  margin-bottom: 20px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  padding: 25px 30px;
+  width: 400px;
+  max-width: 90vw;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
 }
 
-.edit-section input {
-  display: block;
-  margin: 8px 0;
-  padding: 10px;
-  width: 100%;
+.modal input, .modal select {
+  padding: 8px 10px;
+  font-size: 16px;
+  border-radius: 5px;
   border: 1px solid #ccc;
-  border-radius: 6px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.edit-buttons {
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
   margin-top: 10px;
 }
 
-.cancel-btn {
-  background-color: #95a5a6;
-  color: #fff;
-  margin-left: 10px;
-  padding: 8px 16px;
+.update-button {
+  background-color: #2196f3;
+  color: white;
   border: none;
-  border-radius: 6px;
+  padding: 8px 18px;
+  border-radius: 5px;
   cursor: pointer;
+  font-weight: 600;
+}
+
+.cancel-button {
+  background-color: #aaa;
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* Search bar styling */
+.search-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  gap: 8px;
+}
+
+.search-bar input {
+  flex-grow: 1;
+  padding: 8px 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tabs button {
+  padding: 8px 18px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  background-color: #ddd;
+  font-weight: 600;
+}
+
+.tabs button.active {
+  background-color: #2196f3;
+  color: white;
 }

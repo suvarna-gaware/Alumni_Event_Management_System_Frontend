@@ -1,20 +1,19 @@
 import { useState, useEffect } from "react";
 import { FaEdit, FaTrash, FaSearch } from "react-icons/fa";
-import Swal from "sweetalert2"; // Import SweetAlert2
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import "./ViewOrg.css";
+
+const MySwal = withReactContent(Swal);
 
 function ViewOrganization() {
   const [organizations, setOrganizations] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [updateForm, setUpdateForm] = useState({
-    orgid: "",
-    deptid: "",
-    orgname: "",
-    orgemail: "",
-    orgcontact: "",
-  });
   const [loading, setLoading] = useState(false);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
   useEffect(() => {
     fetchAllOrganizations();
@@ -28,6 +27,7 @@ function ViewOrganization() {
       } else {
         handleSearchByName(searchQuery.trim());
       }
+      setCurrentPage(1);
     }, 400);
     return () => clearTimeout(delayDebounce);
   }, [searchQuery]);
@@ -68,7 +68,6 @@ function ViewOrganization() {
   };
 
   const deleteOrganization = async (orgid) => {
-    // Use SweetAlert2 for confirmation dialog
     const result = await Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -85,67 +84,15 @@ function ViewOrganization() {
           method: "DELETE",
         });
         if (res.ok) {
-          Swal.fire("Deleted!", "Organization has been deleted.", "success");
+          Swal.fire("Deleted!", "Organizer has been deleted.", "success");
           fetchAllOrganizations();
-          if (updateForm.orgid === orgid) {
-            setUpdateForm({
-              orgid: "",
-              deptid: "",
-              orgname: "",
-              orgemail: "",
-              orgcontact: "",
-            });
-          }
         } else {
-          Swal.fire("Error!", "Failed to delete organization.", "error");
+          Swal.fire("Error!", "Failed to delete organizer.", "error");
         }
       } catch (err) {
-        console.error("Error deleting organization:", err);
-        Swal.fire("Error!", "Error deleting organization.", "error");
+        console.error("Error deleting organizer:", err);
+        Swal.fire("Error!", "Error deleting organizer.", "error");
       }
-    }
-  };
-
-  const handleUpdateChange = (e) => {
-    setUpdateForm({ ...updateForm, [e.target.name]: e.target.value });
-  };
-
-  const handleUpdateSubmit = async (e) => {
-    e.preventDefault();
-
-    const updatedData = {
-      ...updateForm,
-      orgid: Number(updateForm.orgid),
-      deptid: Number(updateForm.deptid),
-    };
-
-    try {
-      const res = await fetch("http://localhost:8766/updateOrg", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedData),
-      });
-
-      const resultText = await res.text();
-
-      if (res.ok) {
-        Swal.fire("Success!", resultText, "success");
-        fetchAllOrganizations();
-        setUpdateForm({
-          orgid: "",
-          deptid: "",
-          orgname: "",
-          orgemail: "",
-          orgcontact: "",
-        });
-      } else {
-        Swal.fire("Error!", "Failed to update organization.", "error");
-      }
-    } catch (error) {
-      console.error("Error during update:", error);
-      Swal.fire("Error!", "Error updating organization.", "error");
     }
   };
 
@@ -154,9 +101,32 @@ function ViewOrganization() {
     return dept ? dept.deptname : "N/A";
   };
 
+  const indexOfLast = currentPage * itemsPerPage;
+  const indexOfFirst = indexOfLast - itemsPerPage;
+  const currentOrgs = organizations.slice(indexOfFirst, indexOfLast);
+  const totalPages = Math.ceil(organizations.length / itemsPerPage);
+
+  const showUpdateModal = (org) => {
+    MySwal.fire({
+      title: "Update Organizer",
+      html: (
+        <UpdateForm
+          org={org}
+          departments={departments}
+          onUpdateSuccess={() => {
+            fetchAllOrganizations();
+            MySwal.close();
+          }}
+        />
+      ),
+      showConfirmButton: false,
+      width: "600px",
+    });
+  };
+
   return (
-    <div className="view-organization-container">
-      <h1>View Organizations</h1>
+    <div className="view-organization-container mt-5">
+      <h1>View Organizer</h1>
 
       <form onSubmit={(e) => e.preventDefault()} className="search-form">
         <div className="search-container">
@@ -175,8 +145,8 @@ function ViewOrganization() {
         <table>
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Organization Name</th>
+              <th>Sr No.</th>
+              <th>Organizer Name</th>
               <th>Department</th>
               <th>Email</th>
               <th>Contact</th>
@@ -185,32 +155,20 @@ function ViewOrganization() {
           </thead>
           <tbody>
             {loading ? (
-              <tr>
-                <td colSpan="6">Loading...</td>
-              </tr>
+              <tr><td colSpan="6">Loading...</td></tr>
+            ) : currentOrgs.length === 0 ? (
+              <tr><td colSpan="6">No organizers found.</td></tr>
             ) : (
-              organizations.map((org) => (
+              currentOrgs.map((org, index) => (
                 <tr key={org.orgid}>
-                  <td>{org.orgid}</td>
+                  <td>{indexOfFirst + index + 1}</td>
                   <td>{org.orgname}</td>
                   <td>{getDepartmentName(org.deptid)}</td>
                   <td>{org.orgemail}</td>
                   <td>{org.orgcontact}</td>
                   <td>
-                    <button
-                      onClick={() => setUpdateForm({ ...org })}
-                      className="icon-button"
-                      title="Edit"
-                    >
-                      <FaEdit />
-                    </button>
-                    <button
-                      onClick={() => deleteOrganization(org.orgid)}
-                      className="icon-button"
-                      title="Delete"
-                    >
-                      <FaTrash />
-                    </button>
+                    <button onClick={() => showUpdateModal(org)} className="icon-button"><FaEdit /></button>
+                    <button onClick={() => deleteOrganization(org.orgid)} className="icon-button delete"><FaTrash /></button>
                   </td>
                 </tr>
               ))
@@ -219,57 +177,72 @@ function ViewOrganization() {
         </table>
       </div>
 
-      {updateForm.orgid && (
-        <div className="update-form">
-          <h2>Update Organization</h2>
-          <form onSubmit={handleUpdateSubmit}>
-            <select
-              name="deptid"
-              value={updateForm.deptid}
-              onChange={handleUpdateChange}
-              required
-            >
-              <option value="">Select Department</option>
-              {departments.map((dept) => (
-                <option key={dept.deptid} value={dept.deptid}>
-                  {dept.deptname}
-                </option>
-              ))}
-            </select>
-
-            <input
-              type="text"
-              name="orgname"
-              placeholder="Organization Name"
-              value={updateForm.orgname}
-              onChange={handleUpdateChange}
-              required
-            />
-            <input
-              type="email"
-              name="orgemail"
-              placeholder="Organization Email"
-              value={updateForm.orgemail}
-              onChange={handleUpdateChange}
-              required
-            />
-            <input
-              type="text"
-              name="orgcontact"
-              placeholder="Organization Contact"
-              value={updateForm.orgcontact}
-              onChange={handleUpdateChange}
-              required
-            />
-
-            <button type="submit">Update Organization</button>
-            <button type="button" onClick={() => setUpdateForm({ orgid: "" })}>
-              Cancel
+      {totalPages > 1 && (
+        <div className="pagination">
+          <button onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))} disabled={currentPage === 1}>Prev</button>
+          {[...Array(totalPages)].map((_, i) => (
+            <button key={i + 1} className={currentPage === i + 1 ? "active" : ""} onClick={() => setCurrentPage(i + 1)}>
+              {i + 1}
             </button>
-          </form>
+          ))}
+          <button onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))} disabled={currentPage === totalPages}>Next</button>
         </div>
       )}
     </div>
+  );
+}
+
+function UpdateForm({ org, departments, onUpdateSuccess }) {
+  const [formData, setFormData] = useState({ ...org });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: name === "deptid" ? Number(value) : value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch("http://localhost:8766/updateOrg", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      const resultText = await res.text();
+
+      if (res.ok) {
+        Swal.fire("Success!", resultText, "success");
+        onUpdateSuccess();
+      } else {
+        Swal.fire("Error!", "Failed to update organizer.", "error");
+      }
+    } catch (error) {
+      console.error("Error during update:", error);
+      Swal.fire("Error!", "Error updating organizer.", "error");
+    }
+  };
+
+  return (
+    <form className="update-form-modal" onSubmit={handleSubmit}>
+      <select name="deptid" value={formData.deptid} onChange={handleChange} required>
+        <option value="">Select Department</option>
+        {departments.map((dept) => (
+          <option key={dept.deptid} value={dept.deptid}>{dept.deptname}</option>
+        ))}
+      </select>
+
+      <input type="text" name="orgname" placeholder="Organizer Name" value={formData.orgname} onChange={handleChange} required />
+      <input type="email" name="orgemail" placeholder="Email" value={formData.orgemail} onChange={handleChange} required />
+      <input type="text" name="orgcontact" placeholder="Contact" value={formData.orgcontact} onChange={handleChange} required />
+
+      <div className="modal-buttons">
+        <button type="submit" className="btn-update">Update</button>
+        <button type="button" className="btn-cancel" onClick={() => Swal.close()}>Cancel</button>
+      </div>
+    </form>
   );
 }
 

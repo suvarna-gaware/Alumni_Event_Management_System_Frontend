@@ -18,10 +18,6 @@ import Logout from './AdminPages/Logout';
 import UpcomingEvent from './AdminPages/UpcomingEvent';
 import AddFeedbackForm from './AdminPages/AddFeedbackForm';
 
-// // Import the components for View and Add Feedback
-// import ViewFeedback from './StudentPages/ViewFeedback';
-// import AddFeedback from './StudentPages/AddFeedback';  // This is the new component you'll need to create
-
 function StudentDashboard() {
   const navigate = useNavigate();
   const [openSection, setOpenSection] = useState(null);
@@ -34,7 +30,6 @@ function StudentDashboard() {
   const handleSelect = (section, action) => {
     setSelected({ section, action });
   };
-
 
   const renderContent = () => {
     const { section, action } = selected;
@@ -49,7 +44,7 @@ function StudentDashboard() {
       case 'events':
         return <UpcomingEvent />;
       case 'feedback':
-        return action === 'add' ? <AddFeedbackForm /> : <ViewFeedback />;
+        return <AddFeedbackForm />;
       default:
         return <p>Invalid selection.</p>;
     }
@@ -59,43 +54,45 @@ function StudentDashboard() {
   const sections = [
     { key: 'profile', label: 'Profile', icon: <FaUserGraduate /> },
     { key: 'events', label: 'Events', icon: <FaCalendarAlt /> },
-    { key: 'feedback', label: 'Feedback', icon: <FaCommentDots />, allowAdd: true }, // Allow "Add Feedback"
+    { key: 'feedback', label: 'Feedback', icon: <FaCommentDots />, allowAdd: true },
   ];
 
   return (
     <>
-    <Logout/>
-    <div className="dashboard-container">
-      <div className="sidebar">
-        <h2 className="student-panel-title">
-          <FaUserShield style={{ marginRight: '8px' }} />
-          Student Panel
-        </h2>
-        <hr />
+      <Logout />
+      <div className="dashboard-container">
+        <div className="sidebar">
+          <h2 className="student-panel-title">
+            <FaUserShield style={{ marginRight: '8px' }} />
+            Student Panel
+          </h2>
+          <hr />
 
-        {sections.map(({ key, label, icon, allowAdd }) => (
-          <div key={key} className="menu-section">
-            <div className="section-title" onClick={() => toggleSection(key)}>
-              <span className="icon">{icon}</span>
-              <span className="label">{label}</span>
-              <span className="arrow">
-                {openSection === key ? <FaChevronDown /> : <FaChevronRight />}
-              </span>
-            </div>
-            {openSection === key && (
-              <div className="dropdown">
-                <p onClick={() => handleSelect(key, 'view')}>👁️ View </p>
-                {allowAdd && <p onClick={() => handleSelect(key, 'add')}>➕ Add Feedback</p>} {/* Show Add Feedback option */}
+          {sections.map(({ key, label, icon, allowAdd }) => (
+            <div key={key} className="menu-section">
+              <div className="section-title" onClick={() => toggleSection(key)}>
+                <span className="icon">{icon}</span>
+                <span className="label">{label}</span>
+                <span className="arrow">
+                  {openSection === key ? <FaChevronDown /> : <FaChevronRight />}
+                </span>
               </div>
-            )}
-          </div>
-        ))}
+              {openSection === key && (
+                <div className="dropdown">
+                  {key !== 'feedback' && (
+                    <p onClick={() => handleSelect(key, 'view')}>👁️ View</p>
+                  )}
+                  {allowAdd && (
+                    <p onClick={() => handleSelect(key, 'add')}>➕ Add Feedback</p>
+                  )}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
 
-       
+        <div className="main-content">{renderContent()}</div>
       </div>
-
-      <div className="main-content">{renderContent()}</div>
-    </div>
     </>
   );
 }
